@@ -6,8 +6,10 @@ import { useFieldArray, useFormContext } from "react-hook-form";
 // Components
 import {
     BaseButton,
+    DatePickerFormField,
     FormCustomInput,
     FormInput,
+    Items,
     Subheading,
 } from "@/app/components";
 
@@ -15,7 +17,7 @@ import {
 import { useTranslationContext } from "@/contexts/TranslationContext";
 
 // Icons
-import { Plus } from "lucide-react";
+import { CalendarIcon, Plus } from "lucide-react";
 
 const BillFromSection = () => {
     const { control } = useFormContext();
@@ -42,8 +44,46 @@ const BillFromSection = () => {
     return (
         <section className="flex flex-col gap-3">
             <Subheading>{_t("form.steps.fromAndTo.billFrom")}:</Subheading>
-
             <FormInput
+                name="sender.name"
+                label={_t("form.steps.fromAndTo.payer")}
+                placeholder="Your name"
+            />
+            <FormInput
+                name="sender.name"
+                label={_t("form.steps.fromAndTo.payerEmail")}
+                placeholder="Your name"
+            />
+            <FormInput
+                name="sender.name"
+                label={_t("form.steps.fromAndTo.payerAddress")}
+                placeholder="Your address"
+            />
+            <FormInput
+                name="sender.name"
+                label={_t("form.steps.fromAndTo.receiver")}
+                placeholder="Your name"
+            />
+            <FormInput
+                name="sender.name"
+                label={_t("form.steps.fromAndTo.receiverEmail")}
+                placeholder="Your name"
+            />
+            <FormInput
+                name="sender.name"
+                label={_t("form.steps.fromAndTo.receiverAddress")}
+                placeholder="Your name"
+            />   <FormInput
+                name="sender.name"
+                label={_t("form.steps.fromAndTo.voucherNo")}
+                placeholder="Your name"
+            />
+            <DatePickerFormField
+                name="details.invoiceDate"
+                label={_t("form.steps.invoiceDetails.issuedDate")}
+            />
+            {/*  */}
+            {/* <FormInput
                 name="sender.name"
                 label={_t("form.steps.fromAndTo.name")}
                 placeholder="Your name"
@@ -85,7 +125,7 @@ const BillFromSection = () => {
                     const target = e.target as HTMLInputElement;
                     target.value = target.value.replace(/[^\d\+\-\(\)\s]/g, "");
                 }}
-            />
+            /> */}
 
             {/* //? key = field.id fixes a bug where wrong field gets deleted  */}
             {fields?.map((field, index) => (
@@ -106,7 +146,8 @@ const BillFromSection = () => {
             >
                 <Plus />
                 {_t("form.steps.fromAndTo.addCustomInput")}
-            </BaseButton>
+            </BaseButton>\
+            <Items />
         </section>
     );
 };

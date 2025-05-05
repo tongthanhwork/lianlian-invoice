@@ -86,15 +86,11 @@ const CustomInputSchema = z.object({
     value: z.string(),
 });
 
-const InvoiceSenderSchema = z.object({
+const InvoicePayerSchema = z.object({
     name: fieldValidators.name,
     address: fieldValidators.address,
-    zipCode: fieldValidators.zipCode,
-    city: fieldValidators.city,
-    country: fieldValidators.country,
     email: fieldValidators.email,
-    phone: fieldValidators.phone,
-    customInputs: z.array(CustomInputSchema).optional(),
+
 });
 
 const InvoiceReceiverSchema = z.object({
@@ -167,7 +163,7 @@ const InvoiceDetailsSchema = z.object({
 });
 
 const InvoiceSchema = z.object({
-    sender: InvoiceSenderSchema,
+    payer: InvoicePayerSchema,
     receiver: InvoiceReceiverSchema,
     details: InvoiceDetailsSchema,
 });

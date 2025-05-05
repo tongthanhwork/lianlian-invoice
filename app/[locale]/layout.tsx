@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { ReactNode } from 'react';
 
 // Fonts
 import {
@@ -24,9 +25,11 @@ import { Toaster } from "@/components/ui/toaster";
 
 // Components
 import { BaseNavbar, BaseFooter } from "@/app/components";
+import Header from '@/components/Header';
 
 // Contexts
 import Providers from "@/contexts/Providers";
+import { AuthProvider } from '@/contexts/AuthContext';
 
 // SEO
 import { JSONLD, ROOTKEYWORDS } from "@/lib/seo";
@@ -62,20 +65,19 @@ export function generateStaticParams() {
     return locales;
 }
 
-export default async function LocaleLayout({
-    children,
-    params: { locale },
-}: {
-    children: React.ReactNode;
+type Props = {
+    children: ReactNode;
     params: { locale: string };
-}) {
+};
+
+export default async function LocaleLayout({ children, params: { locale } }: Props) {
     let messages;
     try {
         messages = (await import(`@/i18n/locales/${locale}.json`)).default;
     } catch (error) {
         notFound();
     }
-
+    console.log("LocaleLayout");
     return (
         <html lang={locale}>
             <head>
@@ -90,17 +92,18 @@ export default async function LocaleLayout({
             >
                 <NextIntlClientProvider locale={locale} messages={messages}>
                     <Providers>
-                        <BaseNavbar />
-
-                        <div className="flex flex-col">{children}</div>
-
-                        <BaseFooter />
-
-                        {/* Toast component */}
-                        <Toaster />
-
-                        {/* Vercel analytics */}
-                        <Analytics />
+                        <AuthProvider>
+                            <Header />
+                            <main className="py-6 sm:px-6 lg:px-8">
+                                {/* <BaseNavbar /> */}
+                                <div className="flex flex-col">{children}</div>
+                                {/* <BaseFooter /> */}
+                            </main>
+                            {/* Toast component */}
+                            <Toaster />
+                            {/* Vercel analytics */}
+                            <Analytics />
+                        </AuthProvider>
                     </Providers>
                 </NextIntlClientProvider>
             </body>

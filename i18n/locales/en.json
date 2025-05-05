@@ -14,6 +14,15 @@
         },
         "steps": {
             "fromAndTo": {
+                "payer": "Payer",
+                "payerEmail": "Payer Email",
+                "payerAddress": "Payer’s address",
+                "receiver": "Receiver",
+                "receiverEmail": "Receiver Email",
+                "receiverPhone": "Receiver Phone",
+                "receiverAddress": "Receiver’s address",
+                "voucherNo": "Voucher No.",
+                "date": "Date",
                 "billFrom": "Bill From",
                 "billTo": "Bill To",
                 "name": "Name",
@@ -24,8 +33,7 @@
                 "email": "Email",
                 "phone": "Phone",
                 "addCustomInput": "Add Custom Input",
-                "sender": "Sender",
-                "receiver": "Receiver"
+                "sender": "Sender"
             },
             "invoiceDetails": {
                 "heading": "Invoice Details",
@@ -43,8 +51,9 @@
                 "item": "Item",
                 "name": "Name",
                 "quantity": "Quantity",
-                "rate": "Rate",
+                "rate": "Amount",
                 "total": "Total",
+                "amount": "Amount",
                 "description": "Description",
                 "addNewItem": "Add a new item",
                 "removeItem": "Remove item"

@@ -1,0 +1,145 @@
+@import './theme.css';
+
+/* Base styles */
+body {
+    font-family: var(--font-sans);
+    /* background-color: var(--background); */
+    color: var(--foreground);
+}
+
+/* Card styles */
+.card {
+    background-color: var(--background);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.card-header {
+    padding: var(--spacing-6);
+    border-bottom: 1px solid var(--border);
+}
+
+.card-content {
+    padding: var(--spacing-6);
+}
+
+/* Form elements */
+.form-label {
+    /* color: var(--foreground); */
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: var(--spacing-1);
+}
+
+.form-input {
+    width: 100%;
+    padding: var(--spacing-2) var(--spacing-3);
+    border: 1px solid var(--input);
+    border-radius: var(--radius-md);
+    /* background-color: var(--background); */
+    color: var(--foreground);
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--ring);
+    box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.2);
+}
+
+/* Select styles */
+.select-trigger {
+    width: 100%;
+    padding: var(--spacing-2) var(--spacing-3);
+    border: 1px solid var(--input);
+    border-radius: var(--radius-md);
+    background-color: var(--background);
+    color: var(--foreground);
+}
+
+.select-content {
+    background-color: var(--background);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+}
+
+/* Badge styles */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--spacing-1) var(--spacing-2);
+    border-radius: var(--radius-full);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.badge-secondary {
+    background-color: var(--secondary);
+    color: var(--secondary-foreground);
+}
+
+/* Grid and spacing utilities */
+.grid {
+    display: grid;
+    gap: var(--spacing-4);
+}
+
+.space-y>*+* {
+    margin-top: var(--spacing-4);
+}
+
+/* Typography */
+h3 {
+    color: var(--foreground);
+    font-weight: 600;
+    margin-bottom: var(--spacing-4);
+}
+
+/* Table styles */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    padding: var(--spacing-3);
+    border-bottom: 1px solid var(--border);
+}
+
+.table th {
+    background-color: var(--muted);
+    color: var(--muted-foreground);
+    font-weight: 500;
+    text-align: left;
+}
+
+/* Button styles */
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-2) var(--spacing-4);
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.button-primary {
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+}
+
+.button-primary:hover {
+    background-color: var(--primary-hover);
+}
+
+.button-secondary {
+    background-color: var(--secondary);
+    color: var(--secondary-foreground);
+}
+
+.button-secondary:hover {
+    background-color: var(--secondary-hover);
+}

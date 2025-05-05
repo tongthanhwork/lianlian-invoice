@@ -19,23 +19,23 @@ import { InvoiceType, ItemType } from "@/types";
 
 const defaultChargesContext = {
     discountSwitch: false,
-    setDiscountSwitch: (newValue: boolean) => {},
+    setDiscountSwitch: (newValue: boolean) => { },
     taxSwitch: false,
-    setTaxSwitch: (newValue: boolean) => {},
+    setTaxSwitch: (newValue: boolean) => { },
     shippingSwitch: false,
-    setShippingSwitch: (newValue: boolean) => {},
+    setShippingSwitch: (newValue: boolean) => { },
     discountType: "amount",
-    setDiscountType: (newValue: SetStateAction<string>) => {},
+    setDiscountType: (newValue: SetStateAction<string>) => { },
     taxType: "amount",
-    setTaxType: (newValue: SetStateAction<string>) => {},
+    setTaxType: (newValue: SetStateAction<string>) => { },
     shippingType: "amount",
-    setShippingType: (newValue: SetStateAction<string>) => {},
+    setShippingType: (newValue: SetStateAction<string>) => { },
     totalInWordsSwitch: true,
-    setTotalInWordsSwitch: (newValue: boolean) => {},
+    setTotalInWordsSwitch: (newValue: boolean) => { },
     currency: "USD",
     subTotal: 0,
     totalAmount: 0,
-    calculateTotal: () => {},
+    calculateTotal: () => { },
 };
 
 export const ChargesContext = createContext(defaultChargesContext);
@@ -55,7 +55,7 @@ export const ChargesContextProvider = ({ children }: ChargesContextProps) => {
     const itemsArray = useWatch({
         name: `details.items`,
         control,
-    });
+    }) || [];
 
     const currency = useWatch({
         name: `details.currency`,
@@ -174,7 +174,7 @@ export const ChargesContextProvider = ({ children }: ChargesContextProps) => {
         // Here Number(item.total) fixes a bug where an extra zero appears
         // at the beginning of subTotal caused by toFixed(2) in item.total in single item
         // Reason: toFixed(2) returns string, not a number instance
-        const totalSum: number = itemsArray.reduce(
+        const totalSum: number = (itemsArray || []).reduce(
             (sum: number, item: ItemType) => sum + Number(item.total),
             0
         );
@@ -233,7 +233,7 @@ export const ChargesContextProvider = ({ children }: ChargesContextProps) => {
         setValue("details.shippingDetails.costType", shippingCostType);
 
         setValue("details.totalAmount", total);
-        
+
         if (totalInWordsSwitch) {
             setValue("details.totalAmountInWords", formatPriceToString(total, getValues("details.currency")));
         } else {

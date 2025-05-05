@@ -90,16 +90,16 @@ const WizardProgress = ({ wizard }: WizardProgressProps) => {
             label: _t("form.wizard.lineItems"),
             isValid: step3Valid,
         },
-        {
-            id: 3,
-            label: _t("form.wizard.paymentInfo"),
-            isValid: step4Valid,
-        },
-        {
-            id: 4,
-            label: _t("form.wizard.summary"),
-            isValid: step5Valid,
-        },
+        // {
+        //     id: 3,
+        //     label: _t("form.wizard.paymentInfo"),
+        //     isValid: step4Valid,
+        // },
+        // {
+        //     id: 4,
+        //     label: _t("form.wizard.summary"),
+        //     isValid: step5Valid,
+        // },
     ];
 
     return (

@@ -85,16 +85,7 @@ export default function FinalPdf() {
                     Save
                 </BaseButton>
 
-                <SendPdfToEmailModal sendPdfToMail={sendPdfToMail}>
-                    <BaseButton
-                        tooltipLabel="Send invoice PDF to mail"
-                        size="sm"
-                        variant={"outline"}
-                    >
-                        <Mail className="w-5 h-5" />
-                        Send to mail
-                    </BaseButton>
-                </SendPdfToEmailModal>
+
             </div>
             <AspectRatio ratio={1 / 1.4}>
                 <iframe

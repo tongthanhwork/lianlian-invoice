@@ -157,32 +157,31 @@ const SingleItem = ({
                 className="flex flex-wrap justify-between gap-y-5 gap-x-2"
                 key={index}
             >
-                <FormInput
-                    name={`${name}[${index}].name`}
-                    label={_t("form.steps.lineItems.name")}
-                    placeholder="Item name"
-                    vertical
-                />
-
-                <FormInput
-                    name={`${name}[${index}].quantity`}
-                    type="number"
-                    label={_t("form.steps.lineItems.quantity")}
-                    placeholder={_t("form.steps.lineItems.quantity")}
-                    className="w-[8rem]"
-                    vertical
-                />
-
-                <FormInput
-                    name={`${name}[${index}].unitPrice`}
-                    type="number"
-                    label={_t("form.steps.lineItems.rate")}
-                    labelHelper={`(${currency})`}
-                    placeholder={_t("form.steps.lineItems.rate")}
-                    className="w-[8rem]"
-                    vertical
-                />
-
+                <div className="flex flex-col gap-2 w-[1rem]">
+                    <div>
+                        <Label>No</Label>
+                    </div>
+                    {index + 1}
+                </div>
+                <div className="flex flex-col gap-2">
+                    <FormInput
+                        name={`${name}[${index}].description`}
+                        label={_t("form.steps.lineItems.description")}
+                        placeholder="Item description"
+                        vertical
+                    />
+                </div>
+                <div className="flex flex-col gap-2">
+                    <FormInput
+                        name={`${name}[${index}].unitPrice`}
+                        type="number"
+                        label={_t("form.steps.lineItems.rate")}
+                        labelHelper={`(${currency})`}
+                        placeholder={_t("form.steps.lineItems.rate")}
+                        className="w-[8rem]"
+                        vertical
+                    />
+                </div>
                 <div className="flex flex-col gap-2">
                     <div>
                         <Label>{_t("form.steps.lineItems.total")}</Label>
@@ -196,11 +195,7 @@ const SingleItem = ({
                     />
                 </div>
             </div>
-            <FormTextarea
-                name={`${name}[${index}].description`}
-                label={_t("form.steps.lineItems.description")}
-                placeholder="Item description"
-            />
+
             <div>
                 {/* Not allowing deletion for first item when there is only 1 item */}
                 {fields.length > 1 && (

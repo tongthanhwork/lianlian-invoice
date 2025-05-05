@@ -22,44 +22,32 @@ type BaseButtonProps = {
     children?: React.ReactNode;
 } & ButtonProps;
 
-const BaseButton = ({
+const BaseButton = React.forwardRef<HTMLButtonElement, BaseButtonProps>(({
     tooltipLabel,
     type = "button",
     loading,
     loadingText = "Loading",
     children,
     ...props
-}: BaseButtonProps) => {
-    const withoutTooltip = (
-        <>
-            {!loading ? (
-                <Button className="flex gap-2" type={type} {...props}>
-                    {children}
-                </Button>
-            ) : (
-                <Button disabled>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    {loadingText}
-                </Button>
-            )}
-        </>
+}, ref) => {
+    const buttonContent = !loading ? (
+        <Button ref={ref} className="flex gap-2" type={type} {...props}>
+            {children}
+        </Button>
+    ) : (
+        <Button ref={ref} disabled>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            {loadingText}
+        </Button>
     );
 
-    if (!tooltipLabel) return withoutTooltip;
+    if (!tooltipLabel) return buttonContent;
+
     return (
         <TooltipProvider>
             <Tooltip>
                 <TooltipTrigger asChild>
-                    {!loading ? (
-                        <Button className="flex gap-2" type={type} {...props}>
-                            {children}
-                        </Button>
-                    ) : (
-                        <Button type={type} {...props} disabled>
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            {loadingText}
-                        </Button>
-                    )}
+                    {buttonContent}
                 </TooltipTrigger>
                 <TooltipContent>
                     <p>{tooltipLabel}</p>
@@ -67,6 +55,8 @@ const BaseButton = ({
             </Tooltip>
         </TooltipProvider>
     );
-};
+});
+
+BaseButton.displayName = "BaseButton";
 
 export default BaseButton;

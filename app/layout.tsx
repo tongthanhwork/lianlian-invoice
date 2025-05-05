@@ -1,5 +1,7 @@
 import { ReactNode } from "react";
 import "@/app/globals.css";
+import { InvoiceProvider } from "@/contexts/InvoiceContext";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 type Props = {
     children: ReactNode;
@@ -8,5 +10,15 @@ type Props = {
 // Since we have a `not-found.tsx` page on the root, a layout file
 // is required, even if it's just passing children through.
 export default function RootLayout({ children }: Props) {
-    return children;
+    return (
+        <html lang="en">
+            <body>
+                <AuthProvider>
+                    <InvoiceProvider>
+                        {children}
+                    </InvoiceProvider>
+                </AuthProvider>
+            </body>
+        </html>
+    );
 }

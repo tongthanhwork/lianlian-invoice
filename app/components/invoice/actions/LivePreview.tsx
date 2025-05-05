@@ -1,3 +1,5 @@
+"use client";
+
 // Components
 import { DynamicInvoiceTemplate, Subheading } from "@/app/components";
 
@@ -8,13 +10,18 @@ type LivePreviewProps = {
     data: InvoiceType;
 };
 
-export default function LivePreview({ data }: LivePreviewProps) {
+const LivePreview = ({ data }: LivePreviewProps) => {
+    // Set the template based on the document type
+    const templateNumber = data.details.pdfTemplate || "1";
+
     return (
         <>
             <Subheading>Live Preview:</Subheading>
-            <div className="border dark:border-gray-600 rounded-xl my-1">
+            <div className="mt-3">
                 <DynamicInvoiceTemplate {...data} />
             </div>
         </>
     );
-}
+};
+
+export default LivePreview;

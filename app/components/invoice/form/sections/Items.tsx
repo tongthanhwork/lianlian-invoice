@@ -45,11 +45,12 @@ const Items = () => {
         name: ITEMS_NAME,
     });
 
+    console.log("fields", fields);
     const addNewField = () => {
         append({
             name: "",
             description: "",
-            quantity: 0,
+            quantity: 1,
             unitPrice: 0,
             total: 0,
         });

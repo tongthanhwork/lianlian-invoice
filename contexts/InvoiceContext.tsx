@@ -1,18 +1,18 @@
 "use client";
 
 import React, {
-    createContext,
-    useCallback,
-    useContext,
-    useEffect,
-    useMemo,
-    useState,
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
 } from "react";
 
 import { useRouter } from "next/navigation";
 
 // RHF
-import { useFormContext } from "react-hook-form";
+import { useFormContext, FormProvider, useForm } from "react-hook-form";
 
 // Hooks
 import useToasts from "@/hooks/useToasts";
@@ -22,46 +22,48 @@ import { exportInvoice } from "@/services/invoice/client/exportInvoice";
 
 // Variables
 import {
-    FORM_DEFAULT_VALUES,
-    GENERATE_PDF_API,
-    SEND_PDF_API,
-    SHORT_DATE_OPTIONS,
+  FORM_DEFAULT_VALUES,
+  GENERATE_PDF_API,
+  SEND_PDF_API,
+  SHORT_DATE_OPTIONS,
 } from "@/lib/variables";
 
 // Types
 import { ExportTypes, InvoiceType } from "@/types";
 
 const defaultInvoiceContext = {
-    invoicePdf: new Blob(),
-    invoicePdfLoading: false,
-    savedInvoices: [] as InvoiceType[],
-    pdfUrl: null as string | null,
-    onFormSubmit: (values: InvoiceType) => {},
-    newInvoice: () => {},
-    generatePdf: async (data: InvoiceType) => {},
-    removeFinalPdf: () => {},
-    downloadPdf: () => {},
-    printPdf: () => {},
-    previewPdfInTab: () => {},
-    saveInvoice: () => {},
-    deleteInvoice: (index: number) => {},
-    sendPdfToMail: (email: string): Promise<void> => Promise.resolve(),
-    exportInvoiceAs: (exportAs: ExportTypes) => {},
-    importInvoice: (file: File) => {},
+  invoicePdf: new Blob(),
+  invoicePdfLoading: false,
+  savedInvoices: [] as InvoiceType[],
+  pdfUrl: null as string | null,
+  invoiceData: null as InvoiceType | null,
+  onFormSubmit: (values: InvoiceType) => { },
+  newInvoice: () => { },
+  generatePdf: async (data: InvoiceType) => { },
+  removeFinalPdf: () => { },
+  downloadPdf: () => { },
+  printPdf: () => { },
+  previewPdfInTab: () => { },
+  saveInvoice: () => { },
+  deleteInvoice: (index: number) => { },
+  sendPdfToMail: (email: string): Promise<void> => Promise.resolve(),
+  exportInvoiceAs: (exportAs: ExportTypes) => { },
+  importInvoice: (file: File) => { },
+  setInvoiceData: (data: InvoiceType) => { },
 };
 
 export const InvoiceContext = createContext(defaultInvoiceContext);
 
 export const useInvoiceContext = () => {
-    return useContext(InvoiceContext);
+  return useContext(InvoiceContext);
 };
 
 type InvoiceContextProviderProps = {
-    children: React.ReactNode;
+  children: React.ReactNode;
 };
 
 export const InvoiceContextProvider = ({
-    children,
+  children,
 }: InvoiceContextProviderProps) => {
   const router = useRouter();
 
@@ -76,22 +78,58 @@ export const InvoiceContextProvider = ({
     importInvoiceError,
   } = useToasts();
 
-  // Get form values and methods from form context
-  const { getValues, reset } = useFormContext<InvoiceType>();
-
-  // Variables
   const [invoicePdf, setInvoicePdf] = useState<Blob>(new Blob());
   const [invoicePdfLoading, setInvoicePdfLoading] = useState<boolean>(false);
-
-  // Saved invoices
   const [savedInvoices, setSavedInvoices] = useState<InvoiceType[]>([]);
+  const [invoiceData, setInvoiceData] = useState<InvoiceType | null>(null);
+
+  const methods = useForm<InvoiceType>({
+    defaultValues: {
+      payer: {
+        name: '',
+        email: '',
+        address: '',
+        zipCode: '',
+        city: '',
+        country: '',
+        phone: '',
+        customInputs: []
+      },
+      receiver: {
+        name: '',
+        address: '',
+        zipCode: '',
+        city: '',
+        country: '',
+        email: '',
+        phone: '',
+        customInputs: []
+      },
+      details: {
+        currency: '',
+        invoiceNumber: '',
+        invoiceDate: '',
+        dueDate: '',
+        language: '',
+        items: [],
+        subTotal: 0,
+        totalAmount: 0,
+        totalAmountInWords: '',
+        paymentTerms: '',
+        pdfTemplate: '1',
+        updatedAt: ''
+      }
+    }
+  });
+
+  const { getValues, reset } = methods;
 
   useEffect(() => {
     let savedInvoicesDefault;
     if (typeof window !== undefined) {
       // Saved invoices variables
-            const savedInvoicesJSON =
-                window.localStorage.getItem("savedInvoices");
+      const savedInvoicesJSON =
+        window.localStorage.getItem("savedInvoices");
       savedInvoicesDefault = savedInvoicesJSON
         ? JSON.parse(savedInvoicesJSON)
         : [];
@@ -243,8 +281,8 @@ export const InvoiceContextProvider = ({
         const existingInvoiceIndex = savedInvoices.findIndex(
           (invoice: InvoiceType) => {
             return (
-                            invoice.details.invoiceNumber ===
-                            formValues.details.invoiceNumber
+              invoice.details.invoiceNumber ===
+              formValues.details.invoiceNumber
             );
           }
         );
@@ -263,10 +301,10 @@ export const InvoiceContextProvider = ({
           saveInvoiceSuccess();
         }
 
-                localStorage.setItem(
-                    "savedInvoices",
-                    JSON.stringify(savedInvoices)
-                );
+        localStorage.setItem(
+          "savedInvoices",
+          JSON.stringify(savedInvoices)
+        );
 
         setSavedInvoices(savedInvoices);
       }
@@ -374,27 +412,35 @@ export const InvoiceContextProvider = ({
   };
 
   return (
-    <InvoiceContext.Provider
-      value={{
-        invoicePdf,
-        invoicePdfLoading,
-        savedInvoices,
-        pdfUrl,
-        onFormSubmit,
-        newInvoice,
-        generatePdf,
-        removeFinalPdf,
-        downloadPdf,
-        printPdf,
-        previewPdfInTab,
-        saveInvoice,
-        deleteInvoice,
-        sendPdfToMail,
-        exportInvoiceAs,
-        importInvoice,
-      }}
-    >
-      {children}
-    </InvoiceContext.Provider>
+    <FormProvider {...methods}>
+      <InvoiceContext.Provider
+        value={{
+          invoicePdf,
+          invoicePdfLoading,
+          savedInvoices,
+          pdfUrl,
+          invoiceData,
+          onFormSubmit,
+          newInvoice,
+          generatePdf,
+          removeFinalPdf,
+          downloadPdf,
+          printPdf,
+          previewPdfInTab,
+          saveInvoice,
+          deleteInvoice,
+          sendPdfToMail,
+          exportInvoiceAs,
+          importInvoice,
+          setInvoiceData: (data: InvoiceType) => {
+            setInvoiceData(data);
+          }
+        }}
+      >
+        {children}
+      </InvoiceContext.Provider>
+    </FormProvider>
   );
 };
+
+export { InvoiceContextProvider as InvoiceProvider };

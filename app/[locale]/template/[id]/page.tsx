@@ -29,7 +29,7 @@ const ViewTemplate = ({ params }: ViewTemplatePageProps) => {
     return (
         <div className="container">
             <DynamicComponent
-                sender={formValues.sender}
+                payer={formValues.payer}
                 receiver={formValues.receiver}
                 details={formValues.details}
             />

@@ -13,7 +13,8 @@ import { DATE_OPTIONS } from "@/lib/variables";
 import { InvoiceType } from "@/types";
 
 const InvoiceTemplate2 = (data: InvoiceType) => {
-    const { sender, receiver, details } = data;
+    const { payer, receiver, details } = data;
+    console.log("data: ", data);
     return (
         <InvoiceLayout data={data}>
             <div className="flex justify-between">
@@ -29,21 +30,21 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                             src={details.invoiceLogo}
                             width={140}
                             height={100}
-                            alt={`Logo of ${sender.name}`}
+                            alt={`Logo of ${payer.name}`}
                         />
                     )}
 
                     <h1 className="mt-2 text-lg md:text-xl font-semibold text-blue-600">
-                        {sender.name}
+                        {payer.name}
                     </h1>
                 </div>
                 <div className="text-right">
                     <address className="mt-4 not-italic text-gray-800">
-                        {sender.address}
+                        {payer.address}
                         <br />
-                        {sender.zipCode}, {sender.city}
+                        {payer.zipCode}, {payer.city}
                         <br />
-                        {sender.country}
+                        {payer.country}
                         <br />
                     </address>
                 </div>
@@ -163,7 +164,7 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                                     </dt>
                                     <dd className="col-span-2 text-gray-500">
                                         {details.discountDetails.amountType ===
-                                        "amount"
+                                            "amount"
                                             ? `- ${details.discountDetails.amount} ${details.currency}`
                                             : `- ${details.discountDetails.amount}%`}
                                     </dd>
@@ -177,7 +178,7 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                                     </dt>
                                     <dd className="col-span-2 text-gray-500">
                                         {details.taxDetails.amountType ===
-                                        "amount"
+                                            "amount"
                                             ? `+ ${details.taxDetails.amount} ${details.currency}`
                                             : `+ ${details.taxDetails.amount}%`}
                                     </dd>
@@ -191,7 +192,7 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                                     </dt>
                                     <dd className="col-span-2 text-gray-500">
                                         {details.shippingDetails.costType ===
-                                        "amount"
+                                            "amount"
                                             ? `+ ${details.shippingDetails.cost} ${details.currency}`
                                             : `+ ${details.shippingDetails.cost}%`}
                                     </dd>
@@ -266,10 +267,10 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                 </p>
                 <div>
                     <p className="block text-sm font-medium text-gray-800">
-                        {sender.email}
+                        {payer.email}
                     </p>
                     <p className="block text-sm font-medium text-gray-800">
-                        {sender.phone}
+                        {payer.phone}
                     </p>
                 </div>
             </div>
@@ -282,7 +283,7 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                         src={details.signature.data}
                         width={120}
                         height={60}
-                        alt={`Signature of ${sender.name}`}
+                        alt={`Signature of ${payer.name}`}
                     />
                 </div>
             ) : details.signature?.data ? (

@@ -34,6 +34,13 @@ export type SignatureFont = {
     name: string;
     variable: string;
 };
+export interface User {
+    id: string;
+    name: string;
+    email: string;
+    createdAt: string;
+    updatedAt: string;
+}
 
 export enum SignatureTabs {
     DRAW = "draw",

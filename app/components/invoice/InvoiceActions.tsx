@@ -25,69 +25,33 @@ import { useTranslationContext } from "@/contexts/TranslationContext";
 import { FileInput, FolderUp, Import, Plus } from "lucide-react";
 
 const InvoiceActions = () => {
-    const { invoicePdfLoading } = useInvoiceContext();
-
+    const { invoicePdfLoading, invoiceData } = useInvoiceContext();
     const { _t } = useTranslationContext();
+
     return (
-        <div className={`xl:w-[45%]`}>
-            <Card className="h-auto sticky top-0 px-2">
-                <CardHeader>
-                    <CardTitle>{_t("actions.title")}</CardTitle>
-                    <CardDescription>{_t("actions.description")}</CardDescription>
+        <div className="h-full">
+            <Card className="h-full sticky top-0 bg-white">
+                <CardHeader className="pb-4 bg-white border-b border-gray-200">
+                    <CardTitle className="text-gray-900">{_t("actions.title")}</CardTitle>
+                    <CardDescription className="text-gray-600">
+                        {invoiceData?.details?.invoiceNumber
+                            ? `Invoice #${invoiceData.details.invoiceNumber}`
+                            : _t("actions.description")
+                        }
+                    </CardDescription>
+                    {/* Generate pdf button */}
+                    <BaseButton
+                        type="submit"
+                        tooltipLabel="Generate your invoice"
+                        loading={invoicePdfLoading}
+                        loadingText="Generating your invoice"
+                    >
+                        <FileInput />
+                        {_t("actions.generatePdf")}
+                    </BaseButton>
                 </CardHeader>
 
-                <div className="flex flex-col flex-wrap items-center gap-2">
-                    <div className="flex flex-wrap gap-3">
-                        {/* Load modal button */}
-                        <InvoiceLoaderModal>
-                            <BaseButton
-                                variant="outline"
-                                tooltipLabel="Open load invoice menu"
-                                disabled={invoicePdfLoading}
-                            >
-                                <FolderUp />
-                                {_t("actions.loadInvoice")}
-                            </BaseButton>
-                        </InvoiceLoaderModal>
-
-                        {/* Export modal button */}
-                        <InvoiceExportModal>
-                            <BaseButton
-                                variant="outline"
-                                tooltipLabel="Open load invoice menu"
-                                disabled={invoicePdfLoading}
-                            >
-                                <Import />
-                                {_t("actions.exportInvoice")}
-                            </BaseButton>
-                        </InvoiceExportModal>
-                    </div>
-
-                    <div className="flex flex-wrap gap-3">
-                        {/* New invoice button */}
-                        <NewInvoiceAlert>
-                            <BaseButton
-                                variant="outline"
-                                tooltipLabel="Get a new invoice form"
-                                disabled={invoicePdfLoading}
-                            >
-                                <Plus />
-                                {_t("actions.newInvoice")}
-                            </BaseButton>
-                        </NewInvoiceAlert>
-
-                        {/* Generate pdf button */}
-                        <BaseButton
-                            type="submit"
-                            tooltipLabel="Generate your invoice"
-                            loading={invoicePdfLoading}
-                            loadingText="Generating your invoice"
-                        >
-                            <FileInput />
-                            {_t("actions.generatePdf")}
-                        </BaseButton>
-                    </div>
-
+                <div className="flex flex-col items-center gap-4 p-4 bg-white">
                     <div className="w-full">
                         {/* Live preview and Final pdf */}
                         <PdfViewer />
