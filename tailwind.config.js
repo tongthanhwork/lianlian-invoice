@@ -6,7 +6,7 @@ module.exports = {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
-	],
+  ],
   theme: {
     container: {
       center: true,
@@ -15,6 +15,7 @@ module.exports = {
         "2xl": "1400px",
       },
     },
+
     extend: {
       colors: {
         border: "hsl(var(--border))",

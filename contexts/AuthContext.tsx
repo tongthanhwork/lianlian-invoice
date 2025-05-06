@@ -20,10 +20,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
     const router = useRouter();
+
     useEffect(() => {
         const checkAuth = async () => {
             try {
-                setLoading(true);
                 const userData = await authService.getProfile();
                 setUser(userData);
             } catch (error) {
@@ -72,6 +72,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             await authService.logout();
             setUser(null);
             router.push('/login');
+            router.refresh();
+            window.location.href = '/login'; // Force a full page reload
         } catch (error) {
             console.error('Logout failed:', error);
             throw error;

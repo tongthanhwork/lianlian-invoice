@@ -25,66 +25,72 @@ export default function RegisterPage() {
     };
 
     return (
-        <div className={styles.container}>
-            <div className={styles.wrapper}>
-                <h2 className={styles.title}>
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-600 via-purple-600 to-teal-500 px-4">
+            <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 !text-gray-900">
+
+                <h2 className="text-3xl font-extrabold text-center mb-2 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-purple-600 to-teal-500">
                     Join Invoify
                 </h2>
-                <div className={styles.description}>
-                    <p className={styles.descriptionText}>
-                        Start managing your invoices with ease. Get access to professional
-                        templates, automated calculations, and real-time tracking.
-                    </p>
-                </div>
-                <form className={styles.form} onSubmit={handleSubmit}>
+
+                <p className="text-center text-sm text-gray-700 mb-6">
+                    Start managing your invoices with ease. Get access to professional templates, automated calculations, and real-time tracking.
+                </p>
+
+                <form className="space-y-4" onSubmit={handleSubmit}>
                     {error && (
-                        <div className={styles.error} role="alert">
+                        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded text-sm" role="alert">
                             {error}
                         </div>
                     )}
-                    <div className={styles.inputGroup}>
+
+                    <div>
                         <input
                             type="text"
                             required
-                            className={styles.input}
                             placeholder="Full name"
+                            className="w-full px-4 py-2 rounded-lg border border-gray-300 !bg-white !text-gray-900"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                         />
                     </div>
-                    <div className={styles.inputGroup}>
+
+                    <div>
                         <input
                             type="text"
                             required
-                            className={styles.input}
                             placeholder="Email address"
+                            className="w-full px-4 py-2 rounded-lg border border-gray-300 !bg-white !text-gray-900"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
-                    <div className={styles.inputGroup}>
+
+                    <div>
                         <input
                             type="password"
                             required
-                            className={styles.input}
                             placeholder="Password"
+                            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none !bg-white !text-gray-900"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
-                    <button type="submit" className={styles.button}>
+
+                    <button
+                        type="submit"
+                        className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 rounded-lg transition-colors"
+                    >
                         Sign up
                     </button>
+
                 </form>
-                <div className="text-center">
-                    <p className="text-sm text-gray-600">
-                        Already have an account?{' '}
-                        <Link href="/login" className={styles.link}>
-                            Sign in
-                        </Link>
-                    </p>
-                </div>
+
+                <p className="text-center text-sm text-gray-600 mt-4">
+                    Already have an account?{' '}
+                    <Link href="/login" className="text-indigo-600 hover:underline font-medium">
+                        Sign in
+                    </Link>
+                </p>
             </div>
-        </div>
-    );
+        </div>)
 } 

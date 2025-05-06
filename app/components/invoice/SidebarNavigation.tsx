@@ -72,18 +72,26 @@ const SidebarNavigation = ({ selectedType, onTypeSelect, disabled }: SidebarNavi
                     return (
                         <BaseButton
                             key={docType.id}
-                            variant={isSelected ? "default" : "outline"}
+                            variant="outline" // giữ outline, nhưng chúng ta sẽ override background nếu được chọn
                             onClick={() => onTypeSelect(docType.label)}
                             disabled={disabled}
+                            className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-all duration-200
+                                ${isSelected
+                                    ? 'bg-gradient-to-tr from-indigo-600 to-purple-600 text-white border-transparent shadow-md hover:brightness-110'
+                                    : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-100'}
+                            `}
                         >
                             <Icon className={`w-5 h-5 ${isSelected ? 'text-white' : 'text-gray-500'}`} />
-                            <span className="text-sm">{docType.label}</span>
+                            <span className={`text-sm font-medium ${isSelected ? 'text-white' : 'text-gray-700'}`}>
+                                {docType.label}
+                            </span>
                         </BaseButton>
                     );
                 })}
             </div>
         </Card>
     );
+
 };
 
 export default SidebarNavigation; 

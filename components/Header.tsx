@@ -13,12 +13,13 @@ export default function Header() {
     const handleLogout = async () => {
         try {
             await logout();
-            router.push('/login');
+            // The redirect and reload will be handled by the AuthContext
         } catch (error) {
             console.error('Logout failed:', error);
         }
     };
-    console.log("User", user);
+
+
     // Show loading state
     if (loading) {
         return (
@@ -32,37 +33,6 @@ export default function Header() {
                         </div>
                         <div className="flex items-center">
                             <div className="animate-pulse h-8 w-24 bg-gray-200 rounded"></div>
-                        </div>
-                    </div>
-                </div>
-            </header>
-        );
-    }
-
-    // Don't render auth buttons until loading is complete
-    if (!loading && !user) {
-        return (
-            <header className="bg-white shadow-sm">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between h-16">
-                        <div className="flex items-center">
-                            <Link href="/" className="text-xl font-bold text-gray-900 hover:text-indigo-600 transition-colors">
-                                Invoify
-                            </Link>
-                        </div>
-                        <div className="flex items-center space-x-4">
-                            <Link
-                                href="/login"
-                                className="text-gray-700 hover:text-indigo-600 transition-colors"
-                            >
-                                Login
-                            </Link>
-                            <Link
-                                href="/register"
-                                className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
-                            >
-                                Register
-                            </Link>
                         </div>
                     </div>
                 </div>
@@ -132,38 +102,40 @@ export default function Header() {
             </div>
 
             {/* Mobile menu */}
-            <div className={`sm:hidden ${isMenuOpen ? 'block' : 'hidden'}`}>
-                <div className="pt-2 pb-3 space-y-1">
-                    {user ? (
-                        <>
-                            <div className="px-4 py-2 text-gray-700">
-                                {user.name}
-                            </div>
-                            <button
-                                onClick={handleLogout}
-                                className="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors"
-                            >
-                                Logout
-                            </button>
-                        </>
-                    ) : (
-                        <>
-                            <Link
-                                href="/login"
-                                className="block px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-indigo-600 transition-colors"
-                            >
-                                Login
-                            </Link>
-                            <Link
-                                href="/register"
-                                className="block px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-indigo-600 transition-colors"
-                            >
-                                Register
-                            </Link>
-                        </>
-                    )}
+            {isMenuOpen && (
+                <div className="sm:hidden">
+                    <div className="pt-2 pb-3 space-y-1">
+                        {user ? (
+                            <>
+                                <div className="px-4 py-2 text-gray-700">
+                                    {user.name}
+                                </div>
+                                <button
+                                    onClick={handleLogout}
+                                    className="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors"
+                                >
+                                    Logout
+                                </button>
+                            </>
+                        ) : (
+                            <>
+                                <Link
+                                    href="/login"
+                                    className="block px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-indigo-600 transition-colors"
+                                >
+                                    Login
+                                </Link>
+                                <Link
+                                    href="/register"
+                                    className="block px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-indigo-600 transition-colors"
+                                >
+                                    Register
+                                </Link>
+                            </>
+                        )}
+                    </div>
                 </div>
-            </div>
+            )}
         </header>
     );
 } 
