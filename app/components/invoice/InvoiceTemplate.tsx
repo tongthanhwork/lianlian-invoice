@@ -16,9 +16,9 @@ const InvoiceTemplate: React.FC<InvoiceTemplateProps> = ({ data }) => {
             <div className="grid grid-cols-2 gap-8 mb-8">
                 <div>
                     <h2 className="font-semibold mb-2">From</h2>
-                    <p>{data.sender.name}</p>
-                    <p>{data.sender.address}</p>
-                    <p>{data.sender.email}</p>
+                    <p>{data.payer.name}</p>
+                    <p>{data.payer.address}</p>
+                    <p>{data.payer.email}</p>
                 </div>
                 <div>
                     <h2 className="font-semibold mb-2">To</h2>
