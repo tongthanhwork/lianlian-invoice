@@ -38,13 +38,13 @@ export async function generatePdfService(req: NextRequest) {
 				defaultViewport: chromium.defaultViewport,
 				executablePath: await chromium.executablePath(CHROMIUM_EXECUTABLE_PATH),
 				headless: true,
-				ignoreHTTPSErrors: true,
+				ignoreDefaultArgs: ['--disable-extensions'],
 			});
 		} else {
 			const puppeteer = await import("puppeteer");
 			browser = await puppeteer.launch({
 				args: ["--no-sandbox", "--disable-setuid-sandbox"],
-				headless: "new",
+				headless: true,
 			});
 		}
 
@@ -62,13 +62,13 @@ export async function generatePdfService(req: NextRequest) {
 			url: TAILWIND_CDN,
 		});
 
-		const pdf: Buffer = await page.pdf({
+		const pdfBuffer = await page.pdf({
 			format: "a4",
 			printBackground: true,
 			preferCSSPageSize: true,
 		});
 
-		return new NextResponse(new Blob([new Uint8Array(pdf)], { type: "application/pdf" }), {
+		return new NextResponse(new Blob([pdfBuffer], { type: "application/pdf" }), {
 			headers: {
 				"Content-Type": "application/pdf",
 				"Content-Disposition": "attachment; filename=invoice.pdf",

@@ -57,10 +57,10 @@ export const LOCALES = [
     { code: "de", name: "Deutsch" },
     { code: "it", name: "Italiano" },
     { code: "es", name: "Español" },
-    { code: "ca", name: "Català"},
+    { code: "ca", name: "Català" },
     { code: "fr", name: "Français" },
     { code: "ar", name: "العربية" },
-    { code: "pl", name: "Polish"},
+    { code: "pl", name: "Polish" },
     { code: "pt-BR", name: "Português (Brasil)" },
     { code: "tr", name: "Türkçe" },
     { code: "ja", name: "日本語" },
@@ -142,6 +142,8 @@ export const FORM_DEFAULT_VALUES = {
         invoiceNumber: "",
         invoiceDate: "",
         dueDate: "",
+        paymentOrderNumber: "",
+        paymentOrderDate: "",
         items: [
             {
                 name: "",

@@ -42,9 +42,7 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                     <address className="mt-4 not-italic text-gray-800">
                         {payer.address}
                         <br />
-                        {payer.zipCode}, {payer.city}
-                        <br />
-                        {payer.country}
+
                         <br />
                     </address>
                 </div>
@@ -270,7 +268,7 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                         {payer.email}
                     </p>
                     <p className="block text-sm font-medium text-gray-800">
-                        {payer.phone}
+                        {payer.name}
                     </p>
                 </div>
             </div>

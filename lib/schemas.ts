@@ -145,6 +145,8 @@ const InvoiceDetailsSchema = z.object({
     invoiceDate: fieldValidators.date,
     dueDate: fieldValidators.date,
     purchaseOrderNumber: fieldValidators.stringOptional,
+    paymentOrderNumber: fieldValidators.stringOptional,
+    paymentOrderDate: fieldValidators.date.optional(),
     currency: fieldValidators.string,
     language: fieldValidators.string,
     items: z.array(ItemSchema),

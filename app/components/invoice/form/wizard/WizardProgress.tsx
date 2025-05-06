@@ -28,7 +28,7 @@ const WizardProgress = ({ wizard }: WizardProgressProps) => {
 
     const { _t } = useTranslationContext();
 
-    const step1Valid = !errors.sender && !errors.receiver;
+    const step1Valid = !errors.payer && !errors.receiver;
     const step2Valid =
         !errors.details?.invoiceNumber &&
         !errors.details?.dueDate &&

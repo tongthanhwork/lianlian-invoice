@@ -11,6 +11,14 @@ export interface InvoiceType {
         name: string;
         address: string;
         email: string;
+        zipCode: string;
+        city: string;
+        country: string;
+        phone: string;
+        customInputs?: {
+            value: string;
+            key: string;
+        }[];
     };
     receiver: {
         name: string;

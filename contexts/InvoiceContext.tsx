@@ -89,11 +89,8 @@ export const InvoiceContextProvider = ({
         name: '',
         email: '',
         address: '',
-        zipCode: '',
-        city: '',
-        country: '',
-        phone: '',
-        customInputs: []
+
+
       },
       receiver: {
         name: '',
@@ -116,7 +113,7 @@ export const InvoiceContextProvider = ({
         totalAmount: 0,
         totalAmountInWords: '',
         paymentTerms: '',
-        pdfTemplate: '1',
+        pdfTemplate: 1,
         updatedAt: ''
       }
     }
