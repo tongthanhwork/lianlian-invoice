@@ -165,7 +165,7 @@ const PaymentOrderForm = () => {
                             </FormItem>
                         )}
                     />
-                    <FormField
+                    {/* <FormField
                         control={control}
                         name="details.paymentOrderNumber"
                         render={({ field }) => (
@@ -177,7 +177,7 @@ const PaymentOrderForm = () => {
                                 <FormMessage />
                             </FormItem>
                         )}
-                    />
+                    /> */}
                     <FormField
                         control={control}
                         name="details.paymentOrderDate"
