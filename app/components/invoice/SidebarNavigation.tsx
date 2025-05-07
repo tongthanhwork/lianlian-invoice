@@ -12,43 +12,51 @@ type DocumentType = {
     id: string;
     label: string;
     icon: React.ComponentType<{ className?: string }>;
+    enabled: boolean;
 };
 
 const DOCUMENT_TYPES: DocumentType[] = [
     {
         id: "payment-voucher",
         label: "Payment voucher",
-        icon: FileSpreadsheet
+        icon: FileSpreadsheet,
+        enabled: true
     },
     {
         id: "purchase-order",
         label: "Purchase order",
-        icon: FileText
+        icon: FileText,
+        enabled: false
     },
     {
         id: "quotation",
         label: "Quotation",
-        icon: FileCheck
+        icon: FileCheck,
+        enabled: false
     },
     {
         id: "invoice",
         label: "Invoice",
-        icon: Receipt
+        icon: Receipt,
+        enabled: true
     },
     {
         id: "contract",
         label: "Contract",
-        icon: ScrollText
+        icon: ScrollText,
+        enabled: false
     },
     {
         id: "debit-note",
         label: "Debit note",
-        icon: FileWarning
+        icon: FileWarning,
+        enabled: false
     },
     {
         id: "credit-note",
         label: "Credit Note",
-        icon: FileMinus
+        icon: FileMinus,
+        enabled: false
     }
 ];
 
@@ -72,13 +80,14 @@ const SidebarNavigation = ({ selectedType, onTypeSelect, disabled }: SidebarNavi
                     return (
                         <BaseButton
                             key={docType.id}
-                            variant="outline" // giữ outline, nhưng chúng ta sẽ override background nếu được chọn
-                            onClick={() => onTypeSelect(docType.label)}
-                            disabled={disabled}
+                            variant="outline"
+                            onClick={() => docType.enabled && onTypeSelect(docType.label)}
+                            disabled={disabled || !docType.enabled}
                             className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-all duration-200
                                 ${isSelected
                                     ? 'bg-gradient-to-tr from-indigo-600 to-purple-600 text-white border-transparent shadow-md hover:brightness-110'
                                     : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-100'}
+                                ${!docType.enabled ? 'opacity-50 cursor-not-allowed' : ''}
                             `}
                         >
                             <Icon className={`w-5 h-5 ${isSelected ? 'text-white' : 'text-gray-500'}`} />

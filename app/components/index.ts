@@ -8,7 +8,7 @@ import BaseFooter from "./layout/BaseFooter";
    * Invoice
    ========================= */
 import InvoiceMain from "./invoice/InvoiceMain";
-import InvoiceForm from "./invoice/InvoiceForm";
+import InvoiceForm from "./invoice/PaymentVoucherForm";
 import InvoiceActions from "./invoice/InvoiceActions";
 import InvoiceItems from "./invoice/InvoiceItems";
 

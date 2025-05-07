@@ -107,34 +107,30 @@ const SingleItem = ({
         : "cursor-grab";
 
     return (
+
         <div
             style={style}
             {...attributes}
-            className={`${boxDragClasses} group flex flex-col gap-y-5 p-3 my-2 cursor-default rounded-xl bg-gray-50 dark:bg-slate-800 dark:border-gray-600`}
+            className={`${boxDragClasses} group flex flex-col gap-y-5 p-3 my-2 cursor-default rounded-xl bg-white border border-gray-300 !important`}
         >
-            {/* {isDragging && <div className="bg-blue-600 h-1 rounded-full"></div>} */}
             <div className="flex flex-wrap justify-between">
-                {itemName != "" ? (
-                    <p className="font-medium">
-                        #{index + 1} - {itemName}
-                    </p>
+                {itemName !== "" ? (
+                    <p className="font-medium text-black !important">#{index + 1} - {itemName}</p>
                 ) : (
-                    <p className="font-medium">#{index + 1} - Empty name</p>
+                    <p className="font-medium text-black !important">#{index + 1} - Empty name</p>
                 )}
 
                 <div className="flex gap-3">
-                    {/* Drag and Drop Button */}
                     <div
                         className={`${gripDragClasses} flex justify-center items-center`}
                         ref={setNodeRef}
                         {...listeners}
                     >
-                        <GripVertical className="hover:text-blue-600" />
+                        <GripVertical className="hover:text-blue-600 !important" />
                     </div>
 
-                    {/* Up Button */}
                     <BaseButton
-                        size={"icon"}
+                        size="icon"
                         tooltipLabel="Move the item up"
                         onClick={() => moveFieldUp(index)}
                         disabled={index === 0}
@@ -142,9 +138,8 @@ const SingleItem = ({
                         <ChevronUp />
                     </BaseButton>
 
-                    {/* Down Button */}
                     <BaseButton
-                        size={"icon"}
+                        size="icon"
                         tooltipLabel="Move the item down"
                         onClick={() => moveFieldDown(index)}
                         disabled={index === fields.length - 1}
@@ -153,52 +148,61 @@ const SingleItem = ({
                     </BaseButton>
                 </div>
             </div>
+
             <div
-                className="flex flex-wrap justify-between gap-y-5 gap-x-2"
+                className="
+            grid grid-cols-2 gap-4 
+            lg:flex lg:flex-row lg:items-start lg:justify-between lg:gap-y-0 lg:gap-x-2
+            py-4 px-2 lg:px-0 border-b border-gray-200 !important
+          "
                 key={index}
             >
-                <div className="flex flex-col gap-2 w-[1rem]">
-                    <div>
-                        <Label>No</Label>
-                    </div>
-                    {index + 1}
+                {/* No */}
+                <div className="col-span-2 lg:w-[2rem] flex flex-col gap-2">
+                    <Label className="text-sm font-medium text-black mb-1 !important">No</Label>
+                    <div className="text-base text-black !important">{index + 1}</div>
                 </div>
-                <div className="flex flex-col gap-2">
+
+                {/* Description */}
+                <div className="col-span-2 lg:flex-1 flex flex-col gap-2">
                     <FormInput
                         name={`${name}[${index}].description`}
                         label={_t("form.steps.lineItems.description")}
                         placeholder="Item description"
                         vertical
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md text-black bg-white !important"
                     />
                 </div>
-                <div className="flex flex-col gap-2">
+
+                {/* Unit Price */}
+                <div className="col-span-1 flex flex-col gap-2">
                     <FormInput
                         name={`${name}[${index}].unitPrice`}
                         type="number"
                         label={_t("form.steps.lineItems.rate")}
-                        labelHelper={`(${currency})`}
                         placeholder={_t("form.steps.lineItems.rate")}
-                        className="w-[8rem]"
                         vertical
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md text-black bg-white  !important"
                     />
                 </div>
-                <div className="flex flex-col gap-2">
-                    <div>
-                        <Label>{_t("form.steps.lineItems.total")}</Label>
-                    </div>
+
+                {/* Total */}
+                <div className="col-span-1 flex flex-col gap-2">
+                    <Label className="text-sm font-medium text-black mb-1 !important">
+                        {_t("form.steps.lineItems.total")}
+                    </Label>
                     <Input
-                        value={`${total} ${currency}`}
+                        value={`${total}`}
                         readOnly
                         placeholder="Item total"
-                        className="border-none font-medium text-lg bg-transparent"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md font-medium text-lg text-black bg-white !important"
                         size={10}
                     />
                 </div>
             </div>
 
-            <div>
-                {/* Not allowing deletion for first item when there is only 1 item */}
-                {fields.length > 1 && (
+            <div className="flex justify-end mt-4 lg:mt-0 !important">
+                {fields.length > 0 && (
                     <BaseButton
                         variant="destructive"
                         onClick={() => removeField(index)}
@@ -209,6 +213,7 @@ const SingleItem = ({
                 )}
             </div>
         </div>
+
     );
 };
 

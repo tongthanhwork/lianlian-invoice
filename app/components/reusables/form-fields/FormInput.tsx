@@ -40,7 +40,7 @@ const FormInput = ({
                     {label && <FormLabel>{`${label}:`}</FormLabel>}
 
                     {labelHelper && (
-                        <span className="text-xs"> {labelHelper}</span>
+                        <span className="text-xs  text-black"> {labelHelper}</span>
                     )}
 
                     <FormControl>

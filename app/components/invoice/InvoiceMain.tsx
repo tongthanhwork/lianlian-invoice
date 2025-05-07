@@ -7,9 +7,8 @@ import { useFormContext } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 
 // Components
-import { InvoiceActions, InvoiceForm } from "@/app/components";
 import SidebarNavigation from "./SidebarNavigation";
-import PaymentOrderForm from "./PaymentOrderForm";
+
 
 // Context
 import { useInvoiceContext } from "@/contexts/InvoiceContext";
@@ -18,6 +17,9 @@ import { useInvoiceContext } from "@/contexts/InvoiceContext";
 import { InvoiceType } from "@/types";
 
 import { useState, useEffect } from "react";
+import PaymentVoucherForm from "./PaymentVoucherForm";
+import InvoiceForm from "./InvoiceForm";
+import InvoiceActions from "./InvoiceActions";
 
 const DOCUMENT_TYPES = [
     "Payment voucher",
@@ -81,11 +83,11 @@ const InvoiceMain = () => {
     const renderForm = () => {
         switch (selectedType) {
             case "Payment voucher":
-                return <InvoiceForm />;
+                return <PaymentVoucherForm />;
             case "Invoice":
-                return <PaymentOrderForm />;
+                return <InvoiceForm />;
             default:
-                return <PaymentOrderForm />;
+                return <InvoiceForm />;
         }
     };
 

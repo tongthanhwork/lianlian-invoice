@@ -22,7 +22,7 @@ import {
     FormInput,
     DatePickerFormField,
     Items,
-
+    InvoiceForm,
 } from "@/app/components";
 
 // Contexts
@@ -50,7 +50,7 @@ interface SelectOption {
     __isNew__?: boolean;
 }
 
-const InvoiceForm = () => {
+const PaymentVoucherForm = () => {
     const { _t } = useTranslationContext();
     const { control, setValue, watch, getValues } = useFormContext();
     const context = useInvoiceContext();
@@ -286,7 +286,7 @@ const InvoiceForm = () => {
                 <CardHeader className="border-b border-border/40 bg-white">
                     <div className="flex items-center justify-between">
                         <CardTitle className="flex items-center gap-3">
-                            <span className="text-xl font-semibold tracking-tight text-gray-900">Invoice</span>
+                            <span className="text-xl font-semibold tracking-tight text-gray-900">Payment Voucher</span>
                         </CardTitle>
                         <Badge variant="secondary" className="h-8 rounded-md px-3 bg-gray-100">
                             <p className="text-sm font-medium text-gray-900">{invoiceLabel}</p>
@@ -701,14 +701,6 @@ const InvoiceForm = () => {
                                         />
                                     </div>
                                 </div>
-                                <div className="space-y-2">
-                                    <Label className="text-sm font-medium text-gray-700">Due Date</Label>
-                                    <div className="bg-white text-gray-900">
-                                        <DatePickerFormField
-                                            name="details.dueDate"
-                                        />
-                                    </div>
-                                </div>
                             </div>
                         </section>
 
@@ -734,4 +726,4 @@ const InvoiceForm = () => {
     );
 };
 
-export default InvoiceForm;
+export default PaymentVoucherForm;
