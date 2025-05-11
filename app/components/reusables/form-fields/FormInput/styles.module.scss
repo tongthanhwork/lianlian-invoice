@@ -1,0 +1,15 @@
+.input {
+  @apply flex flex-col gap-2;
+  &__label {
+    @apply text-sm font-medium text-neutral-700;
+  }
+
+  &__field {
+    @apply w-full bg-white border border-solid border-neutral-300 rounded-lg;
+
+    &:focus-visible,
+    &:focus {
+      @apply shadow-none ring-offset-0 ring-0 border-blue-400;
+    }
+  }
+}

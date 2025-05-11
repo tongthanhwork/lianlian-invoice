@@ -1,0 +1,94 @@
+"use client";
+
+// RHF
+import { useFormContext } from "react-hook-form";
+
+// ShadCn
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input, InputProps } from "@/components/ui/input";
+import styles from "./styles.module.scss";
+
+type FormInputProps = {
+  name: string;
+  label?: string;
+  labelHelper?: string;
+  placeholder?: string;
+  vertical?: boolean;
+} & InputProps;
+
+const FormInput = ({
+  name,
+  label,
+  labelHelper,
+  placeholder,
+  vertical = true,
+  ...props
+}: FormInputProps) => {
+  const { control } = useFormContext();
+
+  const verticalInput = (
+    <FormField
+      control={control}
+      name={name}
+      render={({ field }) => (
+        <FormItem>
+          <div className={styles.input}>
+            {label && (
+              <FormLabel className={styles.input__label}>{label}</FormLabel>
+            )}
+
+            {labelHelper && (
+              <span className="text-xs  text-black"> {labelHelper}</span>
+            )}
+
+            <FormControl>
+              <Input
+                {...field}
+                placeholder={placeholder}
+                className={styles.input__field}
+                {...props}
+              />
+            </FormControl>
+            <FormMessage />
+          </div>
+        </FormItem>
+      )}
+    />
+  );
+
+  const horizontalInput = (
+    <FormField
+      control={control}
+      name={name}
+      render={({ field }) => (
+        <FormItem>
+          <div className={styles.input}>
+            {label && <FormLabel className="flex-1">{`${label}:`}</FormLabel>}
+            {labelHelper && <span className="text-xs"> {labelHelper}</span>}
+
+            <div className="flex-1">
+              <FormControl>
+                <Input
+                  {...field}
+                  placeholder={placeholder}
+                  className="w-[13rem]"
+                  {...props}
+                />
+              </FormControl>
+              <FormMessage />
+            </div>
+          </div>
+        </FormItem>
+      )}
+    />
+  );
+  return vertical ? verticalInput : horizontalInput;
+};
+
+export default FormInput;
