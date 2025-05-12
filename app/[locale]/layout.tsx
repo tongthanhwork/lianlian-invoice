@@ -3,13 +3,6 @@ import { notFound } from "next/navigation";
 import { ReactNode } from "react";
 
 // Fonts
-import {
-  alexBrush,
-  dancingScript,
-  greatVibes,
-  outfit,
-  parisienne,
-} from "@/lib/fonts";
 
 // Favicon
 import Favicon from "@/public/assets/favicon/favicon.ico";
@@ -24,12 +17,12 @@ import { NextIntlClientProvider } from "next-intl";
 import { Toaster } from "@/components/ui/toaster";
 
 // Components
-import { BaseNavbar, BaseFooter } from "@/app/components";
-import Header from "@/components/Header";
+import PageLoader from "@/app/components/reusables/PageLoader/PageLoader";
+import Spinner from "@/app/components/reusables/Spinner/Spinner";
 
 // Contexts
-import Providers from "@/contexts/Providers";
 import { AuthProvider } from "@/contexts/AuthContext";
+import Providers from "@/contexts/Providers";
 
 // SEO
 import { JSONLD, ROOTKEYWORDS } from "@/lib/seo";
@@ -80,7 +73,7 @@ export default async function LocaleLayout({
   } catch (error) {
     notFound();
   }
-  console.log("LocaleLayout");
+
   return (
     <html lang={locale}>
       <head>
@@ -91,18 +84,21 @@ export default async function LocaleLayout({
         />
       </head>
       <body>
+        <Spinner />
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Providers>
             <AuthProvider>
-              <main>
-                {/* <BaseNavbar /> */}
-                <div className="flex flex-col">{children}</div>
-                {/* <BaseFooter /> */}
-              </main>
-              {/* Toast component */}
-              <Toaster />
-              {/* Vercel analytics */}
-              <Analytics />
+              <PageLoader>
+                <main>
+                  {/* <BaseNavbar /> */}
+                  <div className="flex flex-col">{children}</div>
+                  {/* <BaseFooter /> */}
+                </main>
+                {/* Toast component */}
+                <Toaster />
+                {/* Vercel analytics */}
+                <Analytics />
+              </PageLoader>
             </AuthProvider>
           </Providers>
         </NextIntlClientProvider>

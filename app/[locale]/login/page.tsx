@@ -6,6 +6,7 @@ import { toast } from "@/components/ui/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { useState } from "react";
 import styles from "./styles.module.scss";
+import { spinnerService } from "@/services/spinner.service";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -16,12 +17,15 @@ export default function LoginPage() {
     e.preventDefault();
 
     try {
+      spinnerService.startSpinner();
       await login(email, password);
     } catch (err) {
       toast({
         variant: "destructive",
         description: "Invalid email or password",
       });
+    } finally {
+      spinnerService.endSpinner();
     }
   };
 
