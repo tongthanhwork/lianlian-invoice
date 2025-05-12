@@ -26,7 +26,14 @@ export default function LoginPage() {
   };
 
   return (
-    <AuthLayout title="Login your account">
+    <AuthLayout
+      title="Login your account"
+      footerConfig={{
+        description: "Don't have an account?",
+        link: "/register",
+        linkText: "Sign up",
+      }}
+    >
       <form className={styles.login} onSubmit={handleSubmit}>
         <FormInput
           type="text"
@@ -47,23 +54,6 @@ export default function LoginPage() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-
-        {/* <div className="flex items-start mt-2 mb-2">
-          <input id="terms" type="checkbox" required className="mt-1 mr-2" />
-          <label htmlFor="terms" className="text-sm text-gray-700 select-none">
-            I have read and agree to the
-            <a
-              href="https://vn.lianlianglobal.com/legal/terms"
-              className="ml-2 text-blue-700 hover:underline"
-            >
-              Terms & Conditions
-            </a>
-            ,{" "}
-            <a href="#" className="text-blue-700 hover:underline">
-              Privacy Policy.
-            </a>
-          </label>
-        </div> */}
 
         <button type="submit" className={styles.submitBtn}>
           Sign in

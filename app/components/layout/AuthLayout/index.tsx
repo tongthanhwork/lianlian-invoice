@@ -7,9 +7,18 @@ import styles from "./styles.module.scss";
 type AuthLayoutProps = {
   children: React.ReactNode;
   title: string;
+  footerConfig: {
+    description: string;
+    link: string;
+    linkText: string;
+  };
 };
 
-export const AuthLayout = ({ children, title }: AuthLayoutProps) => {
+export const AuthLayout = ({
+  children,
+  title,
+  footerConfig,
+}: AuthLayoutProps) => {
   return (
     <div className={styles.authLayout}>
       <div className={styles.authLayout__banner}>
@@ -38,9 +47,9 @@ export const AuthLayout = ({ children, title }: AuthLayoutProps) => {
           {children}
 
           <p className={styles.form__link}>
-            Don't have an account?{" "}
-            <Link href="/register" className={styles.link}>
-              Sign up
+            {footerConfig.description}
+            <Link href={footerConfig.link} className={styles.link}>
+              {footerConfig.linkText}
             </Link>
           </p>
           <div className={styles.form__footer}>
