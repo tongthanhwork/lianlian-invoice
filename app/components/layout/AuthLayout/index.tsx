@@ -47,7 +47,7 @@ export const AuthLayout = ({
           {children}
 
           <p className={styles.form__link}>
-            {footerConfig.description}
+            {footerConfig.description}{" "}
             <Link href={footerConfig.link} className={styles.link}>
               {footerConfig.linkText}
             </Link>
