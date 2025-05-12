@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ReactNode } from 'react';
+import { ReactNode } from "react";
 
 // Fonts
 import {
-    alexBrush,
-    dancingScript,
-    greatVibes,
-    outfit,
-    parisienne,
+  alexBrush,
+  dancingScript,
+  greatVibes,
+  outfit,
+  parisienne,
 } from "@/lib/fonts";
 
 // Favicon
@@ -25,11 +25,11 @@ import { Toaster } from "@/components/ui/toaster";
 
 // Components
 import { BaseNavbar, BaseFooter } from "@/app/components";
-import Header from '@/components/Header';
+import Header from "@/components/Header";
 
 // Contexts
 import Providers from "@/contexts/Providers";
-import { AuthProvider } from '@/contexts/AuthContext';
+import { AuthProvider } from "@/contexts/AuthContext";
 
 // SEO
 import { JSONLD, ROOTKEYWORDS } from "@/lib/seo";
@@ -38,75 +38,75 @@ import { JSONLD, ROOTKEYWORDS } from "@/lib/seo";
 import { BASE_URL, GOOGLE_SC_VERIFICATION, LOCALES } from "@/lib/variables";
 
 export const metadata: Metadata = {
-    title: "Invoify | Free Invoice Generator",
-    description:
-        "Create invoices effortlessly with Invoify, the free invoice generator. Try it now!",
-    icons: [{ rel: "icon", url: Favicon.src }],
-    keywords: ROOTKEYWORDS,
-    viewport: "width=device-width, initial-scale=1",
-    robots: {
-        index: true,
-        follow: true,
-    },
-    alternates: {
-        canonical: BASE_URL,
-    },
-    authors: {
-        name: "Ali Abbasov",
-        url: "https://aliabb.vercel.app",
-    },
-    verification: {
-        google: GOOGLE_SC_VERIFICATION,
-    },
+  title: "Invoify | Free Invoice Generator",
+  description:
+    "Create invoices effortlessly with Invoify, the free invoice generator. Try it now!",
+  icons: [{ rel: "icon", url: Favicon.src }],
+  keywords: ROOTKEYWORDS,
+  viewport: "width=device-width, initial-scale=1",
+  robots: {
+    index: true,
+    follow: true,
+  },
+  alternates: {
+    canonical: BASE_URL,
+  },
+  authors: {
+    name: "Ali Abbasov",
+    url: "https://aliabb.vercel.app",
+  },
+  verification: {
+    google: GOOGLE_SC_VERIFICATION,
+  },
 };
 
 export function generateStaticParams() {
-    const locales = LOCALES.map((locale) => locale.code);
-    return locales;
+  const locales = LOCALES.map((locale) => locale.code);
+  return locales;
 }
 
 type Props = {
-    children: ReactNode;
-    params: { locale: string };
+  children: ReactNode;
+  params: { locale: string };
 };
 
-export default async function LocaleLayout({ children, params: { locale } }: Props) {
-    let messages;
-    try {
-        messages = (await import(`@/i18n/locales/${locale}.json`)).default;
-    } catch (error) {
-        notFound();
-    }
-    console.log("LocaleLayout");
-    return (
-        <html lang={locale}>
-            <head>
-                <script
-                    type="application/ld+json"
-                    id="json-ld"
-                    dangerouslySetInnerHTML={{ __html: JSON.stringify(JSONLD) }}
-                />
-            </head>
-            <body
-                className={`${outfit.className} ${dancingScript.variable} ${parisienne.variable} ${greatVibes.variable} ${alexBrush.variable} antialiased bg-slate-100 dark:bg-slate-800`}
-            >
-                <NextIntlClientProvider locale={locale} messages={messages}>
-                    <Providers>
-                        <AuthProvider>
-                            <Header />
-                            <main className="py-6 sm:px-6 lg:px-8">
-                                {/* <BaseNavbar /> */}
-                                <div className="flex flex-col">{children}</div>
-                                {/* <BaseFooter /> */}
-                            </main>
-                            {/* Toast component */}
-                            <Toaster />
-                            {/* Vercel analytics */}
-                            <Analytics />
-                        </AuthProvider>
-                    </Providers>
-                </NextIntlClientProvider>
-            </body>
-        </html>
-    );
+export default async function LocaleLayout({
+  children,
+  params: { locale },
+}: Props) {
+  let messages;
+  try {
+    messages = (await import(`@/i18n/locales/${locale}.json`)).default;
+  } catch (error) {
+    notFound();
+  }
+  console.log("LocaleLayout");
+  return (
+    <html lang={locale}>
+      <head>
+        <script
+          type="application/ld+json"
+          id="json-ld"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(JSONLD) }}
+        />
+      </head>
+      <body>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <Providers>
+            <AuthProvider>
+              <main>
+                {/* <BaseNavbar /> */}
+                <div className="flex flex-col">{children}</div>
+                {/* <BaseFooter /> */}
+              </main>
+              {/* Toast component */}
+              <Toaster />
+              {/* Vercel analytics */}
+              <Analytics />
+            </AuthProvider>
+          </Providers>
+        </NextIntlClientProvider>
+      </body>
+    </html>
+  );
 }

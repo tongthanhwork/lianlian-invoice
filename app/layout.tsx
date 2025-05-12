@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "@/app/globals.css";
 import { InvoiceProvider } from "@/contexts/InvoiceContext";
 import { AuthProvider } from "@/contexts/AuthContext";
+import Header from "@/components/Header";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -21,7 +22,10 @@ export default function RootLayout({ children }: Props) {
     <html lang="en">
       <body className={`${poppins.variable} font-sans`}>
         <AuthProvider>
-          <InvoiceProvider>{children}</InvoiceProvider>
+          <InvoiceProvider>
+            {/* <Header /> */}
+            {children}
+          </InvoiceProvider>
         </AuthProvider>
       </body>
     </html>
