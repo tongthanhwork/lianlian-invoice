@@ -1,14 +1,13 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useAuth } from "@/contexts/AuthContext";
-import Link from "next/link";
 import { AuthLayout } from "@/app/components";
-import { toast } from "@/components/ui/use-toast";
 import FormInput from "@/app/components/reusables/form-fields/FormInput/FormInput";
-import styles from "./styles.module.scss";
 import { Checkbox } from "@/components/ui/checkbox";
+import { toast } from "@/components/ui/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import styles from "./styles.module.scss";
 
 export default function RegisterPage() {
   const [name, setName] = useState("");
@@ -69,28 +68,24 @@ export default function RegisterPage() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <div className="flex items-start mt-2 mb-2">
-          {/* <input id="terms" type="checkbox" required className="mt-1 mr-2"  /> */}
-          <Checkbox id="terms" type="checkbox" required className="mt-1 mr-2" />
-          <label htmlFor="terms" className="text-sm text-gray-700 select-none ">
+        <div className={styles.terms}>
+          <Checkbox id="terms" required className={styles.checkbox} />
+          <label htmlFor="terms" className={styles.label}>
             I have read and agree to the
             <a
               href="https://vn.lianlianglobal.com/legal/terms"
-              className="ml-2 text-blue-700 hover:underline"
+              className={styles.link}
             >
               Terms & Conditions
             </a>
             ,{" "}
-            <a href="#" className="text-blue-700 hover:underline">
+            <a href="#" className={styles.link}>
               Privacy Policy.
             </a>
           </label>
         </div>
 
-        <button
-          type="submit"
-          className="w-full bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 rounded-lg transition-colors"
-        >
+        <button type="submit" className={styles.button}>
           Sign up
         </button>
       </form>
