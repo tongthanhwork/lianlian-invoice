@@ -32,7 +32,7 @@ export default function FinalPdf() {
 
   return (
     <>
-      <div className="flex flex-row items-center justify-between mb-2">
+      <div className="flex flex-row items-center justify-between mb-2 h-fit">
         <div className="flex items-center ">
           <BaseButton
             variant={"ghost"}
@@ -85,12 +85,11 @@ export default function FinalPdf() {
           </BaseButton>
         </div>
       </div>
-      <AspectRatio ratio={1 / 1.4}>
-        <iframe
-          className=" w-full  h-[calc(100vh_-_262px)] overflow-y-scroll"
-          src={`${pdfUrl}#toolbar=0`}
-        />
-      </AspectRatio>
+
+      <iframe
+        className=" w-full  h-[calc(100vh_-_262px)] overflow-y-scroll"
+        src={`${pdfUrl}#toolbar=0`}
+      />
     </>
   );
 }

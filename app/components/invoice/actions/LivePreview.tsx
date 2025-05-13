@@ -16,7 +16,7 @@ const LivePreview = ({ data }: LivePreviewProps) => {
 
   return (
     <>
-      <div className="mt-3 h-[calc(100vh_-_216px)] overflow-y-scroll border border-solid border-neutral-500  ">
+      <div className="mt-3 h-[calc(100vh_-_240px)] overflow-y-scroll border border-solid border-neutral-500  ">
         <DynamicInvoiceTemplate {...data} />
       </div>
     </>
