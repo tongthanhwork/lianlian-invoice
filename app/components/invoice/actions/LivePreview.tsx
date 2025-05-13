@@ -7,21 +7,20 @@ import { DynamicInvoiceTemplate, Subheading } from "@/app/components";
 import { InvoiceType } from "@/types";
 
 type LivePreviewProps = {
-    data: InvoiceType;
+  data: InvoiceType;
 };
 
 const LivePreview = ({ data }: LivePreviewProps) => {
-    // Set the template based on the document type
-    const templateNumber = data.details.pdfTemplate || "1";
+  // Set the template based on the document type
+  const templateNumber = data.details.pdfTemplate || "1";
 
-    return (
-        <>
-            <Subheading>Live Preview:</Subheading>
-            <div className="mt-3">
-                <DynamicInvoiceTemplate {...data} />
-            </div>
-        </>
-    );
+  return (
+    <>
+      <div className="mt-3 h-[calc(100vh_-_216px)] overflow-y-scroll border border-solid border-neutral-500  ">
+        <DynamicInvoiceTemplate {...data} />
+      </div>
+    </>
+  );
 };
 
 export default LivePreview;
