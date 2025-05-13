@@ -5,7 +5,7 @@
   }
 
   &__field {
-    @apply w-full bg-white border border-solid border-neutral-300 rounded-lg;
+    @apply w-full bg-white border border-solid border-neutral-300 rounded-lg hover:border-blue-400;
 
     &:focus-visible,
     &:focus {

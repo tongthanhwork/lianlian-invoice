@@ -80,7 +80,7 @@ const SidebarNavigation = ({
   disabled,
 }: SidebarNavigationProps) => {
   return (
-    <Card className="h-full sticky top-0 bg-white">
+    <div className="h-full sticky top-0 bg-white">
       <div className="flex flex-col gap-2 p-4">
         {DOCUMENT_TYPES.map((docType) => {
           const isSelected = docType.label === selectedType;
@@ -95,7 +95,7 @@ const SidebarNavigation = ({
               className={`flex items-center justify-start border-0 gap-2 px-4 py-2 rounded-none rounded-r-lg  transition-all duration-200 cursor-pointer
                                 ${
                                   isSelected
-                                    ? " border-l-2 !border-blue-500 bg-blue-50 text-blue-600 hover:bg-blue-100 hover:text-blue-600"
+                                    ? "border-l-2 !border-blue-400 bg-blue-50 text-blue-600 hover:bg-blue-100 hover:text-blue-600"
                                     : "bg-white  text-gray-700 hover:bg-gray-100 hover:text-gray-700"
                                 }
                                 ${
@@ -111,7 +111,7 @@ const SidebarNavigation = ({
           );
         })}
       </div>
-    </Card>
+    </div>
   );
 };
 

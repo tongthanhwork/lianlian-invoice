@@ -30,7 +30,7 @@ const InvoiceTemplate = (data: InvoiceType) => {
               {payer.address && <div>{payer.address}</div>}
             </div>
             <h1 className="text-center text-3xl font-bold mb-4">
-              Paymesssssst Voucher
+              Payment Voucher
             </h1>
 
             {/* To, Address, Voucher No, Date on one row with different alignment */}

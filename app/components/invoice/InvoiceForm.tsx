@@ -5,8 +5,6 @@ import { useEffect, useMemo, useState } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 
 // ShadCn
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 
 // Components
@@ -15,20 +13,21 @@ import { DatePickerFormField } from "@/app/components";
 // Contexts
 import { useInvoiceContext } from "@/contexts/InvoiceContext";
 import { useTranslationContext } from "@/contexts/TranslationContext";
+import { InvoiceContainer } from "./InvoiceContainer";
 import { ItemTableSection } from "./ItemTableSection";
 import { PayerSection } from "./PayerSection";
 import { ReceiverSection } from "./ReceiverSection";
 import { VoucherSection } from "./VoucherSection";
 
 interface Payer {
-  id: string;
+  _id: string;
   name: string;
   emails: string[];
   addresses: string[];
 }
 
 interface Receiver {
-  id: string;
+  _id: string;
   name: string;
   emails: string[];
 }
@@ -148,7 +147,7 @@ const InvoiceForm = () => {
           );
           if (payer) {
             setSelectedPayer({
-              value: payer.id,
+              value: payer._id,
               label: payer.name,
             });
           }
@@ -177,7 +176,7 @@ const InvoiceForm = () => {
           );
           if (receiver) {
             setSelectedReceiver({
-              value: receiver.id,
+              value: receiver._id,
               label: receiver.name,
             });
           }
@@ -260,10 +259,10 @@ const InvoiceForm = () => {
 
   // Auto-fill payer details when selected
   const handlePayerChange = (payerId: string) => {
-    const selectedPayer = payers.find((p) => p.id === payerId);
+    const selectedPayer = payers.find((p) => p._id === payerId);
     if (selectedPayer) {
       setSelectedPayer({
-        value: selectedPayer.id,
+        value: selectedPayer._id,
         label: selectedPayer.name,
       });
       setValue("payer.name", selectedPayer.name);
@@ -272,10 +271,10 @@ const InvoiceForm = () => {
 
   // Auto-fill receiver details when selected
   const handleReceiverChange = (receiverId: string) => {
-    const selectedReceiver = receivers.find((r) => r.id === receiverId);
+    const selectedReceiver = receivers.find((r) => r._id === receiverId);
     if (selectedReceiver) {
       setSelectedReceiver({
-        value: selectedReceiver.id,
+        value: selectedReceiver._id,
         label: selectedReceiver.name,
       });
       setValue("receiver.name", selectedReceiver.name);
@@ -294,85 +293,66 @@ const InvoiceForm = () => {
   }, [invoiceNumber]);
 
   return (
-    <div className="max-w-[1200px] mx-auto">
-      <Card className="border-border/40 shadow-sm bg-white">
-        <CardHeader className="border-b border-border/40 bg-white">
-          <div className="flex items-center justify-between">
-            <CardTitle className="flex items-center gap-3">
-              <span className="text-xl font-semibold tracking-tight text-gray-900">
-                Invoice
-              </span>
-            </CardTitle>
-            <Badge
-              variant="secondary"
-              className="h-8 rounded-md px-3 bg-gray-100"
-            >
-              <p className="text-sm font-medium text-gray-900">
-                {invoiceLabel}
-              </p>
-            </Badge>
-          </div>
-        </CardHeader>
-        <CardContent className="p-6 bg-white">
-          <div className="space-y-8">
-            {/* Payer Details */}
-            <PayerSection
-              payers={payers}
-              payerEmails={payerEmails}
-              payerAddresses={payerAddresses}
-              selectedPayer={selectedPayer}
-              selectedPayerEmail={selectedPayerEmail}
-              selectedPayerAddress={selectedPayerAddress}
-              setPayers={setPayers}
-              setPayerEmails={setPayerEmails}
-              setPayerAddresses={setPayerAddresses}
-              setSelectedPayer={setSelectedPayer}
-              setSelectedPayerEmail={setSelectedPayerEmail}
-              setSelectedPayerAddress={setSelectedPayerAddress}
-            />
+    <InvoiceContainer title="Invoice" invoiceLabel={invoiceLabel}>
+      <div className="space-y-8">
+        {/* Payer Details */}
+        <PayerSection
+          payers={payers}
+          payerEmails={payerEmails}
+          payerAddresses={payerAddresses}
+          selectedPayer={selectedPayer}
+          selectedPayerEmail={selectedPayerEmail}
+          selectedPayerAddress={selectedPayerAddress}
+          setPayers={setPayers}
+          setPayerEmails={setPayerEmails}
+          setPayerAddresses={setPayerAddresses}
+          setSelectedPayer={setSelectedPayer}
+          setSelectedPayerEmail={setSelectedPayerEmail}
+          setSelectedPayerAddress={setSelectedPayerAddress}
+        />
 
-            {/* Receiver Details */}
-            <ReceiverSection
-              receivers={receivers}
-              receiverEmails={receiverEmails}
-              receiverAddresses={receiverAddresses}
-              selectedReceiver={selectedReceiver}
-              selectedReceiverEmail={selectedReceiverEmail}
-              selectedReceiverAddress={selectedReceiverAddress}
-              setReceivers={setReceivers}
-              setReceiverEmails={setReceiverEmails}
-              setReceiverAddresses={setReceiverAddresses}
-              setSelectedReceiver={setSelectedReceiver}
-              setSelectedReceiverEmail={setSelectedReceiverEmail}
-              setSelectedReceiverAddress={setSelectedReceiverAddress}
-            />
+        {/* Receiver Details */}
+        <ReceiverSection
+          receivers={receivers}
+          receiverEmails={receiverEmails}
+          receiverAddresses={receiverAddresses}
+          selectedReceiver={selectedReceiver}
+          selectedReceiverEmail={selectedReceiverEmail}
+          selectedReceiverAddress={selectedReceiverAddress}
+          setReceivers={setReceivers}
+          setReceiverEmails={setReceiverEmails}
+          setReceiverAddresses={setReceiverAddresses}
+          setSelectedReceiver={setSelectedReceiver}
+          setSelectedReceiverEmail={setSelectedReceiverEmail}
+          setSelectedReceiverAddress={setSelectedReceiverAddress}
+        />
 
-            {/* Voucher Details */}
-            <VoucherSection>
-              <div className="space-y-2">
-                <Label className="text-sm font-medium text-gray-700">
-                  Date
-                </Label>
-                <div className="bg-white text-gray-900">
-                  <DatePickerFormField name="details.invoiceDate" />
-                </div>
+        {/* Voucher Details */}
+        <VoucherSection>
+          <div className="grid grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <Label className="text-base font-medium text-neutral-700">
+                Date
+              </Label>
+              <div className="bg-white text-gray-900">
+                <DatePickerFormField name="details.invoiceDate" />
               </div>
-              <div className="space-y-2">
-                <Label className="text-sm font-medium text-gray-700">
-                  Due Date
-                </Label>
-                <div className="bg-white text-gray-900">
-                  <DatePickerFormField name="details.dueDate" />
-                </div>
+            </div>
+            <div className="space-y-2">
+              <Label className="text-base font-medium text-neutral-700">
+                Due Date
+              </Label>
+              <div className="bg-white text-gray-900">
+                <DatePickerFormField name="details.dueDate" />
               </div>
-            </VoucherSection>
-
-            {/* Items Table */}
-            <ItemTableSection />
+            </div>
           </div>
-        </CardContent>
-      </Card>
-    </div>
+        </VoucherSection>
+
+        {/* Items Table */}
+        <ItemTableSection />
+      </div>
+    </InvoiceContainer>
   );
 };
 

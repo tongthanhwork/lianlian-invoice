@@ -89,7 +89,7 @@ export default async function LocaleLayout({
           <Providers>
             <AuthProvider>
               <PageLoader>
-                <main>
+                <main className="bg-white">
                   {/* <BaseNavbar /> */}
                   <div className="flex flex-col">{children}</div>
                   {/* <BaseFooter /> */}

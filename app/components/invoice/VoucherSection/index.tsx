@@ -1,27 +1,29 @@
 import React, { ReactNode } from "react";
 import { DatePickerFormField } from "../..";
 import { Label } from "@/components/ui/label";
-import { FormInput } from "../..";
+import FormInput from "../../reusables/form-fields/FormInput/FormInput";
+import { SectionContainer } from "../SectionContainer";
+import { cn } from "@/lib/utils";
 
-export const VoucherSection = ({ children }: { children: ReactNode }) => {
+export const VoucherSection = ({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) => {
   return (
-    <section className="space-y-4">
-      <h3 className="text-lg font-semibold tracking-tight text-gray-900">
-        Voucher Details
-      </h3>
-      <div className="flex flex-col space-y-4">
+    <SectionContainer title="Invoice Information">
+      <div className={cn("flex flex-col space-y-4", className)}>
         <div className="space-y-2">
-          <Label className="text-sm font-medium text-gray-700">
-            Voucher Number
-          </Label>
           <FormInput
             name="details.invoiceNumber"
             placeholder="Enter voucher number"
-            className="bg-white text-gray-900 placeholder:text-gray-900"
+            label="Voucher Number"
           />
         </div>
         {children}
       </div>
-    </section>
+    </SectionContainer>
   );
 };
