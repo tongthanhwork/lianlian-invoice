@@ -7,19 +7,19 @@ import { useFieldArray, useFormContext } from "react-hook-form";
 
 // DnD
 import {
-    DndContext,
-    closestCenter,
-    MouseSensor,
-    TouchSensor,
-    useSensor,
-    useSensors,
-    DragEndEvent,
-    DragOverlay,
-    UniqueIdentifier,
+  DndContext,
+  closestCenter,
+  MouseSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+  DragOverlay,
+  UniqueIdentifier,
 } from "@dnd-kit/core";
 import {
-    SortableContext,
-    verticalListSortingStrategy,
+  SortableContext,
+  verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 
 // Components
@@ -35,115 +35,120 @@ import { Plus } from "lucide-react";
 import { InvoiceType } from "@/types";
 
 const Items = () => {
-    const { control, setValue } = useFormContext<InvoiceType>();
+  const { control, setValue } = useFormContext<InvoiceType>();
 
-    const { _t } = useTranslationContext();
+  const { _t } = useTranslationContext();
 
-    const ITEMS_NAME = "details.items";
-    const { fields, append, remove, move } = useFieldArray({
-        control: control,
-        name: ITEMS_NAME,
+  const ITEMS_NAME = "details.items";
+  const { fields, append, remove, move } = useFieldArray({
+    control: control,
+    name: ITEMS_NAME,
+  });
+
+  console.log("fields", fields);
+  const addNewField = () => {
+    append({
+      name: "",
+      description: "",
+      quantity: 1,
+      unitPrice: 0,
+      total: 0,
     });
+  };
 
-    console.log("fields", fields);
-    const addNewField = () => {
-        append({
-            name: "",
-            description: "",
-            quantity: 1,
-            unitPrice: 0,
-            total: 0,
-        });
-    };
+  const removeField = (index: number) => {
+    remove(index);
+  };
 
-    const removeField = (index: number) => {
-        remove(index);
-    };
+  const moveFieldUp = (index: number) => {
+    if (index > 0) {
+      move(index, index - 1);
+    }
+  };
+  const moveFieldDown = (index: number) => {
+    if (index < fields.length - 1) {
+      move(index, index + 1);
+    }
+  };
 
-    const moveFieldUp = (index: number) => {
-        if (index > 0) {
-            move(index, index - 1);
-        }
-    };
-    const moveFieldDown = (index: number) => {
-        if (index < fields.length - 1) {
-            move(index, index + 1);
-        }
-    };
+  // DnD
+  const [activeId, setActiveId] = useState<UniqueIdentifier>();
 
-    // DnD
-    const [activeId, setActiveId] = useState<UniqueIdentifier>();
+  const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
 
-    const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
+  const handleDragEnd = useCallback(
+    async (event: DragEndEvent) => {
+      const { active, over } = event;
+      setActiveId(active.id);
 
-    const handleDragEnd = useCallback(
-        async (event: DragEndEvent) => {
-            const { active, over } = event;
-            setActiveId(active.id);
+      if (active.id !== over?.id) {
+        const oldIndex = fields.findIndex((item) => item.id === active.id);
+        const newIndex = fields.findIndex((item) => item.id === over?.id);
 
-            if (active.id !== over?.id) {
-                const oldIndex = fields.findIndex(
-                    (item) => item.id === active.id
-                );
-                const newIndex = fields.findIndex(
-                    (item) => item.id === over?.id
-                );
+        move(oldIndex, newIndex);
+      }
+    },
+    [fields, setValue]
+  );
 
-                move(oldIndex, newIndex);
-            }
-        },
-        [fields, setValue]
-    );
-
-    return (
-        <section className="flex flex-col gap-2 w-full">
-            <Subheading>{_t("form.steps.lineItems.heading")}:</Subheading>
-            <DndContext
-                sensors={sensors}
-                collisionDetection={closestCenter}
-                onDragStart={(event) => {
-                    const { active } = event;
-                    setActiveId(active.id);
-                }}
-                onDragEnd={handleDragEnd}
+  return (
+    <section className="flex flex-col gap-4 w-full">
+      <div className="flex justify-between items-center">
+        <h3 className="text-lg font-semibold tracking-tight text-gray-900">
+          Expense Item
+        </h3>
+        <BaseButton
+          tooltipLabel="Add a new item to the list"
+          onClick={addNewField}
+          className="bg-white rounded-lg text-blue-500 hover:bg-blue-50 border border-solid border-blue-400 py-0 h-9"
+        >
+          <Plus />
+          {_t("form.steps.lineItems.addNewItem")}
+        </BaseButton>
+      </div>
+      <div className="flex flex-row items-center px-2 font-medium text-neutral-700 w-full gap-3 bg-neutral-100 py-3 rounded-t-lg border border-b-0 border-solid border-neutral-200 text-sm">
+        <div className="w-10">No.</div>
+        <div className="w-1/2">Description</div>
+        <div className="w-1/4">Unit Price</div>
+        <div className="w-full max-w-[80px]">Quantity</div>
+        <div className="w-1/4">Total</div>
+        <div className="max-w-[72px] w-full"></div>
+      </div>
+      <div className="border border-t-0 border-solid rounded-b-lg -mt-4 border-neutral-200 py-2">
+        {fields?.length ? (
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragStart={(event) => {
+              const { active } = event;
+              setActiveId(active.id);
+            }}
+            onDragEnd={handleDragEnd}
+          >
+            <SortableContext
+              items={fields}
+              strategy={verticalListSortingStrategy}
             >
-                <SortableContext
-                    items={fields}
-                    strategy={verticalListSortingStrategy}
-                >
-                    {fields.map((field, index) => (
-                        <SingleItem
-                            key={field.id}
-                            name={ITEMS_NAME}
-                            index={index}
-                            fields={fields}
-                            field={field}
-                            moveFieldUp={moveFieldUp}
-                            moveFieldDown={moveFieldDown}
-                            removeField={removeField}
-                        />
-                    ))}
-                </SortableContext>
-                {/* <DragOverlay
-                    dropAnimation={{
-                        duration: 500,
-                        easing: "cubic-bezier(0.18, 0.67, 0.6, 1.22)",
-                    }}
-                >
-                    <div className="w-[10rem]">
-                        <p>Click to drop</p>
-                    </div>
-                </DragOverlay> */}
-            </DndContext>
-            <BaseButton
-                tooltipLabel="Add a new item to the list"
-                onClick={addNewField}
-            >
-                <Plus />
-                {_t("form.steps.lineItems.addNewItem")}
-            </BaseButton>
-        </section>
-    );
+              {fields.map((field, index) => (
+                <SingleItem
+                  key={field.id}
+                  name={ITEMS_NAME}
+                  index={index}
+                  fields={fields}
+                  field={field}
+                  moveFieldUp={moveFieldUp}
+                  moveFieldDown={moveFieldDown}
+                  removeField={removeField}
+                />
+              ))}
+            </SortableContext>
+          </DndContext>
+        ) : (
+          <div className="text-neutral-500 text-center">No data</div>
+        )}
+      </div>
+    </section>
+  );
 };
 
 export default Items;
