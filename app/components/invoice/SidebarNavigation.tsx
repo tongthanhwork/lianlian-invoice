@@ -80,7 +80,7 @@ const SidebarNavigation = ({
   disabled,
 }: SidebarNavigationProps) => {
   return (
-    <div className="h-full sticky top-0 bg-white">
+    <div className="h-full sticky top-0 bg-white w-full lg:w-[20%]">
       <div className="flex flex-col gap-2 p-4">
         {DOCUMENT_TYPES.map((docType) => {
           const isSelected = docType.label === selectedType;

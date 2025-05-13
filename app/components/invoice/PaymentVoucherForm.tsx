@@ -295,6 +295,15 @@ const PaymentVoucherForm = () => {
   return (
     <InvoiceContainer title="Payment Voucher" invoiceLabel={invoiceLabel}>
       <div className="space-y-8">
+        {/* Voucher Details */}
+        <VoucherSection className="grid grid-cols-2 gap-4 items-start">
+          <div className="space-y-2 !mt-0">
+            <Label className="text-sm font-medium text-gray-700">Date</Label>
+            <div className="bg-white text-gray-900">
+              <DatePickerFormField name="details.invoiceDate" />
+            </div>
+          </div>
+        </VoucherSection>
         {/* Payer Details */}
         <PayerSection
           payers={payers}
@@ -326,16 +335,6 @@ const PaymentVoucherForm = () => {
           setSelectedReceiverEmail={setSelectedReceiverEmail}
           setSelectedReceiverAddress={setSelectedReceiverAddress}
         />
-
-        {/* Voucher Details */}
-        <VoucherSection className="grid grid-cols-2 gap-4 items-start">
-          <div className="space-y-2 !mt-0">
-            <Label className="text-sm font-medium text-gray-700">Date</Label>
-            <div className="bg-white text-gray-900">
-              <DatePickerFormField name="details.invoiceDate" />
-            </div>
-          </div>
-        </VoucherSection>
 
         {/* Items Table */}
         <ItemTableSection />

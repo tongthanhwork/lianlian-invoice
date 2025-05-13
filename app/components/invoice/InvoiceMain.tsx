@@ -100,18 +100,16 @@ const InvoiceMain = () => {
       >
         <div className="flex flex-col lg:flex-row w-full gap-4">
           {/* Sidebar Navigation */}
-          <div className="w-full lg:w-[20%]">
-            <SidebarNavigation
-              selectedType={selectedType}
-              onTypeSelect={handleTypeSelect}
-            />
-          </div>
+          <SidebarNavigation
+            selectedType={selectedType}
+            onTypeSelect={handleTypeSelect}
+          />
 
           {/* Form */}
-          <div className="w-full lg:w-[40%]">{renderForm()}</div>
+          <div className="w-full lg:w-[40%] h-fit">{renderForm()}</div>
 
           {/* Actions */}
-          <div className="w-full lg:w-[40%]">
+          <div className="w-full lg:w-[40%] h-fit">
             <InvoiceActions key={renderKey} />
           </div>
         </div>

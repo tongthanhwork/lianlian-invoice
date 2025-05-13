@@ -14,7 +14,7 @@ export const InvoiceContainer = ({
 }) => {
   return (
     <div className="max-w-[1200px] mx-auto">
-      <div className="border-border/40 shadow-sm bg-white">
+      <div className="border border-solid border-neutral-200 rounded-lg bg-white">
         <CardHeader className="border-b border-border/40 bg-white">
           <div className="flex items-center justify-between">
             <CardTitle className="flex items-center gap-3">
@@ -32,7 +32,9 @@ export const InvoiceContainer = ({
             </Badge>
           </div>
         </CardHeader>
-        <CardContent className="p-6 bg-white">{children}</CardContent>
+        <CardContent className="p-6 bg-white h-[calc(100vh_-_180px)] overflow-y-scroll">
+          {children}
+        </CardContent>
       </div>
     </div>
   );

@@ -295,6 +295,27 @@ const InvoiceForm = () => {
   return (
     <InvoiceContainer title="Invoice" invoiceLabel={invoiceLabel}>
       <div className="space-y-8">
+        {/* Voucher Details */}
+        <VoucherSection>
+          <div className="grid grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <Label className="text-base font-medium text-neutral-700">
+                Date
+              </Label>
+              <div className="bg-white text-gray-900">
+                <DatePickerFormField name="details.invoiceDate" />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label className="text-base font-medium text-neutral-700">
+                Due Date
+              </Label>
+              <div className="bg-white text-gray-900">
+                <DatePickerFormField name="details.dueDate" />
+              </div>
+            </div>
+          </div>
+        </VoucherSection>
         {/* Payer Details */}
         <PayerSection
           payers={payers}
@@ -326,28 +347,6 @@ const InvoiceForm = () => {
           setSelectedReceiverEmail={setSelectedReceiverEmail}
           setSelectedReceiverAddress={setSelectedReceiverAddress}
         />
-
-        {/* Voucher Details */}
-        <VoucherSection>
-          <div className="grid grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <Label className="text-base font-medium text-neutral-700">
-                Date
-              </Label>
-              <div className="bg-white text-gray-900">
-                <DatePickerFormField name="details.invoiceDate" />
-              </div>
-            </div>
-            <div className="space-y-2">
-              <Label className="text-base font-medium text-neutral-700">
-                Due Date
-              </Label>
-              <div className="bg-white text-gray-900">
-                <DatePickerFormField name="details.dueDate" />
-              </div>
-            </div>
-          </div>
-        </VoucherSection>
 
         {/* Items Table */}
         <ItemTableSection />
