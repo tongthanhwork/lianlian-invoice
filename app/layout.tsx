@@ -23,7 +23,7 @@ export default function RootLayout({ children }: Props) {
       <body className={`${poppins.variable} font-sans`}>
         <AuthProvider>
           <InvoiceProvider>
-            {/* <Header /> */}
+            <Header />
             {children}
           </InvoiceProvider>
         </AuthProvider>
