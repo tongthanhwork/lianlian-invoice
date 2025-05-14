@@ -6,13 +6,9 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 
 export default function Header() {
-  const { user, logout } = useAuth();
+  const { user, logout, loading } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
-
-  useEffect(() => {
-    console.log("Header - Current user:", user);
-  }, [user]);
 
   const handleLogout = async () => {
     try {
@@ -77,34 +73,35 @@ export default function Header() {
           </div>
 
           {/* Desktop menu */}
-          <div className="hidden sm:flex sm:items-center">
-            {user ? (
-              <div className="flex items-center space-x-4">
-                <span className="text-gray-700">{user.name}</span>
-                <button
-                  onClick={handleLogout}
-                  className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors"
-                >
-                  Logout
-                </button>
-              </div>
-            ) : (
-              <div className="flex items-center space-x-4">
-                <Link
-                  href="/login"
-                  className="text-gray-700 hover:text-indigo-600 transition-colors"
-                >
-                  Login
-                </Link>
-                <Link
-                  href="/register"
-                  className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
-                >
-                  Register
-                </Link>
-              </div>
-            )}
-          </div>
+          {!loading && (
+            <div className="hidden sm:flex sm:items-center">
+              {user ? (
+                <div className="flex items-center space-x-4">
+                  <span className="text-gray-700">{user.name}</span>
+                  <button
+                    onClick={handleLogout}
+                    className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors"
+                  >
+                    Logout
+                  </button>
+                </div>
+              ) : // <div className="flex items-center space-x-4">
+              //   <Link
+              //     href="/login"
+              //     className="text-gray-700 hover:text-indigo-600 transition-colors"
+              //   >
+              //     Login
+              //   </Link>
+              //   <Link
+              //     href="/register"
+              //     className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
+              //   >
+              //     Register
+              //   </Link>
+              // </div>
+              null}
+            </div>
+          )}
         </div>
       </div>
 

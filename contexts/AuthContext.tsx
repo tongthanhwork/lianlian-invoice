@@ -9,11 +9,12 @@ import {
 } from "react";
 import { User } from "@/types";
 import { authService } from "@/services/auth/authService";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { spinnerService } from "@/services/spinner.service";
 
 interface AuthContextType {
   user: User | null;
+  loading: boolean;
   login: (
     email: string,
     password: string
@@ -27,11 +28,14 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  console.log("🚀 ~ AuthProvider ~ user:", user);
+  const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
+  const pathname = usePathname();
 
+  // Force re-render when route changes
   useEffect(() => {
     const checkAuth = async () => {
+      setLoading(true);
       try {
         spinnerService.startSpinner();
         const userData = await authService.getProfile();
@@ -41,18 +45,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUser(null);
       } finally {
         spinnerService.endSpinner();
+        setLoading(false);
       }
     };
 
     checkAuth();
-  }, []);
+  }, [pathname]); // Re-run when route changes
 
   const withSpinner = async <T,>(fn: () => Promise<T>): Promise<T> => {
+    setLoading(true);
     spinnerService.startSpinner();
     try {
       return await fn();
     } finally {
       spinnerService.endSpinner();
+      setLoading(false);
     }
   };
 
@@ -60,10 +67,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return withSpinner(async () => {
       try {
         const userData = await authService.login({ email, password });
-        console.log("🚀 ~ returnwithSpinner ~ userData?.user:", userData);
         setUser(userData);
+        // Wait for state to be updated
+        await new Promise((resolve) => setTimeout(resolve, 100));
         router.push("/invoice");
-        router.refresh();
         return { success: true };
       } catch (error) {
         console.error("Login failed:", error);
@@ -92,7 +99,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUser(null);
         router.push("/login");
         router.refresh();
-        window.location.href = "/login"; // Force a full page reload
       } catch (error) {
         console.error("Logout failed:", error);
         throw error;
@@ -109,7 +115,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, login, register, logout, updateProfile }}
+      value={{ user, loading, login, register, logout, updateProfile }}
     >
       {children}
     </AuthContext.Provider>
