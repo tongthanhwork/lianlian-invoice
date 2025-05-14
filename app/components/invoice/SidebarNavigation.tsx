@@ -80,8 +80,8 @@ const SidebarNavigation = ({
   disabled,
 }: SidebarNavigationProps) => {
   return (
-    <div className="h-full sticky top-0 bg-white w-full min-w-[240px] lg:w-60">
-      <div className="flex flex-col gap-2 p-4">
+    <div className="h-full sticky top-0 bg-white w-full min-w-[220px] lg:w-60">
+      <div className="flex flex-col gap-2 p-4 pl-0">
         {DOCUMENT_TYPES.map((docType) => {
           const isSelected = docType.label === selectedType;
           const Icon = docType.icon;

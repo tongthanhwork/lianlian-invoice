@@ -3,12 +3,16 @@
 import { useAuth } from "@/contexts/AuthContext";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Header() {
-  const { user, loading, logout } = useAuth();
+  const { user, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
+
+  useEffect(() => {
+    console.log("Header - Current user:", user);
+  }, [user]);
 
   const handleLogout = async () => {
     try {
@@ -19,26 +23,6 @@ export default function Header() {
     }
   };
   const hidden = pathname === "/login" || pathname === "/register";
-
-  // Show loading state
-  if (loading) {
-    return (
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <div className="flex items-center">
-              <Link href="/" className="text-xl font-bold text-gray-900">
-                Invoify
-              </Link>
-            </div>
-            <div className="flex items-center">
-              <div className="animate-pulse h-8 w-24 bg-gray-200 rounded"></div>
-            </div>
-          </div>
-        </div>
-      </header>
-    );
-  }
 
   return (
     <header className={`bg-red-50 shadow-sm ${hidden ? "hidden" : ""}`}>

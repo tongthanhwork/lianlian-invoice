@@ -7,21 +7,13 @@ import { InvoiceMain } from "@/app/components";
 
 export default function InvoicePage() {
   const router = useRouter();
-  const { user, loading } = useAuth();
+  const { user } = useAuth();
 
   useEffect(() => {
-    if (!loading && !user) {
+    if (!user) {
       router.push("/login");
     }
-  }, [user, loading, router]);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
-      </div>
-    );
-  }
+  }, [user, router]);
 
   if (!user) {
     return null;
