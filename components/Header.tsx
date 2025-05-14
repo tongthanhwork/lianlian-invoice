@@ -4,6 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
+import { LogOut } from "lucide-react";
 
 export default function Header() {
   const { user, logout, loading } = useAuth();
@@ -21,13 +22,17 @@ export default function Header() {
   const hidden = pathname === "/login" || pathname === "/register";
 
   return (
-    <header className={`bg-red-50 shadow-sm ${hidden ? "hidden" : ""}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <header
+      className={`bg-white sticky top-0 border-b border-neutral-200 z-10 ${
+        hidden ? "hidden" : ""
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link
-              href="/"
-              className="text-xl font-bold text-gray-900 hover:text-indigo-600 transition-colors"
+              href="/invoice"
+              className="text-xl font-bold text-white bg-blue-600 uppercase px-4 py-1 rounded-lg transition-colors"
             >
               Invoify
             </Link>
@@ -80,9 +85,9 @@ export default function Header() {
                   <span className="text-gray-700">{user.name}</span>
                   <button
                     onClick={handleLogout}
-                    className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors"
+                    className="bg-red-50 text-red-600  px-4 py-2 rounded-md hover:bg-red-100 transition-colors flex items-center gap-2"
                   >
-                    Logout
+                    <LogOut className="w-5 h-5" />
                   </button>
                 </div>
               ) : // <div className="flex items-center space-x-4">
