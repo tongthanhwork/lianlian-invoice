@@ -1,21 +1,20 @@
 "use client";
 
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 
 // RHF
 import { useFieldArray, useFormContext } from "react-hook-form";
 
 // DnD
 import {
-  DndContext,
   closestCenter,
+  DndContext,
+  DragEndEvent,
   MouseSensor,
   TouchSensor,
+  UniqueIdentifier,
   useSensor,
   useSensors,
-  DragEndEvent,
-  DragOverlay,
-  UniqueIdentifier,
 } from "@dnd-kit/core";
 import {
   SortableContext,
@@ -23,7 +22,6 @@ import {
 } from "@dnd-kit/sortable";
 
 // Components
-import { BaseButton, SingleItem, Subheading } from "@/app/components";
 
 // Contexts
 import { useTranslationContext } from "@/contexts/TranslationContext";
@@ -32,10 +30,11 @@ import { useTranslationContext } from "@/contexts/TranslationContext";
 import { Plus } from "lucide-react";
 
 // Types
+import { BaseButton } from "@/app/components";
 import { InvoiceType } from "@/types";
-import FormInput from "@/app/components/reusables/form-fields/FormInput/FormInput";
+import VoucherSingleItem from "../VoucherSingleItem";
 
-const Items = () => {
+const PaymentVoucherItem = () => {
   const { control, setValue } = useFormContext<InvoiceType>();
 
   const { _t } = useTranslationContext();
@@ -102,9 +101,7 @@ const Items = () => {
       <div className="flex flex-row items-center px-2 font-medium text-neutral-700 w-full gap-3 bg-neutral-100 py-3 rounded-t-lg border border-b-0 border-solid border-neutral-200 text-sm">
         <div className="w-10">No.</div>
         <div className="w-1/2">Description</div>
-        <div className="w-1/4">Unit Price</div>
-        <div className="w-full max-w-[80px]">Quantity</div>
-        <div className="w-1/4">Total</div>
+        <div className="w-1/4">Amount</div>
         <div className="max-w-[60px] w-full"></div>
       </div>
       <div className="border border-t-0 border-solid rounded-b-lg -mt-4 border-neutral-200 py-2">
@@ -123,7 +120,7 @@ const Items = () => {
               strategy={verticalListSortingStrategy}
             >
               {fields.map((field, index) => (
-                <SingleItem
+                <VoucherSingleItem
                   key={field.id}
                   name={ITEMS_NAME}
                   index={index}
@@ -139,17 +136,6 @@ const Items = () => {
         ) : (
           <div className="text-neutral-500 text-center">No data</div>
         )}
-        <div className="flex flex-row items-center justify-end px-2 pt-3 pb-1 gap-3 border-t border-neutral-200 mt-2">
-          <div className="w-1/4 text-right font-medium ">Tax</div>
-          <div className="w-1/4">
-            <FormInput
-              name="details.taxDetails.amount"
-              type="number"
-              placeholder="Tax amount"
-              vertical
-            />
-          </div>
-        </div>
       </div>
       <BaseButton
         tooltipLabel="Add a new item to the list"
@@ -163,4 +149,4 @@ const Items = () => {
   );
 };
 
-export default Items;
+export default PaymentVoucherItem;

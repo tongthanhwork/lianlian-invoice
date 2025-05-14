@@ -38,11 +38,11 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
         {/* Invoice Details Section */}
         <div className="grid grid-cols-2 gap-x-8 gap-y-2 my-6 ">
           <div className="space-y-3">
-            <div className="grid grid-cols-2 gap-1">
+            <div className="grid grid-cols-2 gap-1 ">
               <span className="font-semibold text-sm">To:</span>
               <span className="text-sm text-right">{payer.name}</span>
             </div>
-            <div className="grid grid-cols-2 gap-1">
+            <div className="grid grid-cols-2 gap-1 !mt-1">
               <span className="font-semibold text-sm">Address:</span>
               <span className="text-sm text-right">{payer.address}</span>
             </div>
@@ -65,8 +65,8 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                 {details.invoiceNumber}
               </span>
             </div>
-            <div className="grid grid-cols-2">
-              <span className="font-semibold text-sm">Date:</span>
+            <div className="grid grid-cols-2 !mt-1">
+              <span className="font-semibold text-sm ">Date:</span>
               <span className="text-right text-sm">
                 {details.invoiceDate &&
                   new Date(details.invoiceDate).toLocaleDateString(
@@ -117,12 +117,8 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                   {index + 1}
                 </div>
                 <div className="col-span-5 p-3 border-r border-gray-300">
-                  <p className="font-medium text-sm">{item.name}</p>
-                  {item.description && (
-                    <p className="text-xs text-gray-600 mt-1">
-                      {item.description}
-                    </p>
-                  )}
+                  <p className="text-sm font-medium">{item.name}</p>
+                  {item.description}
                 </div>
                 <div className="col-span-2 p-3 text-right text-sm border-r border-gray-300">
                   {item.unitPrice &&
@@ -139,26 +135,26 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
             ))}
 
             {/* Tax Row (if applicable) */}
-            {/* {details.taxDetails?.amount > 0 && (
-              <div className="grid grid-cols-12 bg-white border-t border-gray-300">
-                <div className="col-span-8 p-3 text-right font-medium text-sm">
-                  Tax
-                </div>
-                <div className="col-span-2 p-3 text-center text-sm border-r border-gray-300">
-                  {details.taxDetails.amountType === "percentage" ? `${details.taxDetails.amount}%` : ""}
-                </div>
-                <div className="col-span-2 p-3 text-right text-sm">
-                  {details.taxDetails.amountType === "amount" 
-                    ? `${formatNumberWithCommas(Number(details.taxDetails.amount))} ${details.currency}`
-                    : ""}
-                </div>
+            <div className="grid grid-cols-12  border-t border-gray-300">
+              <div className="col-span-10 p-2 text-right text-sm text-neutral-500 ">
+                Tax
               </div>
-            )} */}
+
+              <div className="col-span-2 p-2 text-right text-sm font-semibold">
+                {details.taxDetails?.amountType === "amount"
+                  ? `${formatNumberWithCommas(
+                      Number(details.taxDetails?.amount)
+                    )}`
+                  : ""}
+              </div>
+            </div>
 
             {/* Total Row */}
-            <div className="grid grid-cols-12  border-t border-gray-300 font-bold">
-              <div className="col-span-10 p-3 text-right text-sm">Total</div>
-              <div className="col-span-2 p-3 text-right text-sm">
+            <div className="grid grid-cols-12  ">
+              <div className="col-span-10 px-2 text-right text-sm  text-neutral-500 ">
+                Total
+              </div>
+              <div className="col-span-2 px-2 pb-2 text-right text-sm font-semibold">
                 {formatNumberWithCommas(Number(details.totalAmount))}{" "}
                 {details.currency}
               </div>

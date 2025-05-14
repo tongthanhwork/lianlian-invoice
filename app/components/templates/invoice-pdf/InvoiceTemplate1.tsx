@@ -95,9 +95,7 @@ const InvoiceTemplate = (data: InvoiceType) => {
               <div className="col-span-7 p-3 border-r border-gray-300">
                 Description
               </div>
-              <div className="col-span-2 p-3  border-r border-gray-300">
-                Unit Price
-              </div>
+
               <div className="col-span-2 p-3 ">Amount</div>
             </div>
 
@@ -105,28 +103,16 @@ const InvoiceTemplate = (data: InvoiceType) => {
             {details.items?.map((item, index) => (
               <div
                 key={index}
-                className={`grid grid-cols-12 bg-white border-t border-gray-300`}
+                className={`grid grid-cols-12 bg-white border-b border-gray-300`}
               >
                 <div className="col-span-1 p-3 border-r border-gray-300 text-sm">
                   {index + 1}
                 </div>
                 <div className="col-span-7 p-3 border-r border-gray-300">
                   <p className="font-medium text-sm">{item.name}</p>
-                  {item.description && (
-                    <p className="text-xs text-gray-600 mt-1">
-                      {item.description}
-                    </p>
-                  )}
-                  {item.quantity && (
-                    <p className="text-xs text-gray-600">
-                      Quantity: {item.quantity}
-                    </p>
-                  )}
+                  {item.description}
                 </div>
-                <div className="col-span-2 p-3 text-right text-sm border-r border-gray-300">
-                  {item.unitPrice &&
-                    formatNumberWithCommas(Number(item.unitPrice))}
-                </div>
+
                 <div className="col-span-2 p-3 text-right text-sm">
                   {formatNumberWithCommas(Number(item.total))}{" "}
                   {details.currency}
@@ -135,9 +121,11 @@ const InvoiceTemplate = (data: InvoiceType) => {
             ))}
 
             {/* Total Row */}
-            <div className="grid grid-cols-12 bg-gray-100 border-t border-gray-300 font-bold">
-              <div className="col-span-10 p-3 text-right text-sm">Total</div>
-              <div className="col-span-2 p-3 text-right text-sm">
+            <div className="grid grid-cols-12 py-2 ">
+              <div className="col-span-10 px-2 text-right text-sm  text-neutral-500 ">
+                Total
+              </div>
+              <div className="col-span-2 px-2 text-right text-sm font-semibold">
                 {formatNumberWithCommas(Number(details.totalAmount))}{" "}
                 {details.currency}
               </div>

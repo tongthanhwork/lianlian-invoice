@@ -1,13 +1,12 @@
-import React from "react";
-import { Items } from "../..";
 import { useFormContext } from "react-hook-form";
+import PaymentVoucherItem from "../form/sections/PaymentVoucherItem";
 
-export const ItemTableSection = () => {
+export const VoucherItemTable = () => {
   const { watch } = useFormContext();
   return (
     <>
       <section className="space-y-4">
-        <Items />
+        <PaymentVoucherItem />
       </section>
       <section className="space-y-4">
         <div className="flex flex-col gap-3 items-end">

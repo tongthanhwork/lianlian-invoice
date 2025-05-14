@@ -14,7 +14,7 @@ import { DatePickerFormField } from "@/app/components";
 import { useInvoiceContext } from "@/contexts/InvoiceContext";
 import { useTranslationContext } from "@/contexts/TranslationContext";
 import { InvoiceContainer } from "./InvoiceContainer";
-import { ItemTableSection } from "./ItemTableSection";
+import { VoucherItemTable } from "./VoucherItemTable";
 import { PayerSection } from "./PayerSection";
 import { ReceiverSection } from "./ReceiverSection";
 import { VoucherSection } from "./VoucherSection";
@@ -340,7 +340,7 @@ const PaymentVoucherForm = () => {
         />
 
         {/* Items Table */}
-        <ItemTableSection />
+        <VoucherItemTable />
       </div>
     </InvoiceContainer>
   );
