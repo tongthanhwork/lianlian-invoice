@@ -15,17 +15,15 @@ export const VoucherSection = ({
   numberTitle?: string;
 }) => {
   return (
-    <SectionContainer title="Information">
-      <div className={cn("flex flex-col space-y-4", className)}>
-        <div className="space-y-2">
-          <FormInput
-            name="details.invoiceNumber"
-            placeholder="Enter voucher number"
-            label={numberTitle}
-          />
-        </div>
-        {children}
+    <div className={cn("flex flex-col space-y-4", className)}>
+      <div className="space-y-2">
+        <FormInput
+          name="details.invoiceNumber"
+          placeholder="Enter voucher number"
+          label={numberTitle}
+        />
       </div>
-    </SectionContainer>
+      {children}
+    </div>
   );
 };
