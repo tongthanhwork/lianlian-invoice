@@ -8,7 +8,7 @@ export const AppSelect = ({
 }: CreatableProps<any, any, any> & { label: string }) => {
   return (
     <div className="space-y-2">
-      <Label className="text-base font-medium text-neutral-700">{label}</Label>
+      <Label className="text-sm font-medium text-neutral-700">{label}</Label>
       <CreatableSelect
         {...props}
         className="w-full bg-white text-gray-900"

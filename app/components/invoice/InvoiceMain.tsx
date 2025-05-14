@@ -106,11 +106,13 @@ const InvoiceMain = () => {
           />
 
           {/* Form */}
-          <div className="w-full lg:w-[40%] h-fit">{renderForm()}</div>
+          <div className="flex flex-row gap-6 w-full mt-4">
+            <div className="h-fit w-[55%]">{renderForm()}</div>
 
-          {/* Actions */}
-          <div className="w-full lg:w-[40%] h-fit">
-            <InvoiceActions key={renderKey} />
+            {/* Actions */}
+            <div className="h-fit w-[45%]">
+              <InvoiceActions key={renderKey} />
+            </div>
           </div>
         </div>
       </form>

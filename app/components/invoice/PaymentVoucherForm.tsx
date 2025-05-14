@@ -296,10 +296,13 @@ const PaymentVoucherForm = () => {
     <InvoiceContainer title="Payment Voucher" invoiceLabel={invoiceLabel}>
       <div className="space-y-8">
         {/* Voucher Details */}
-        <VoucherSection className="grid grid-cols-2 gap-4 items-start">
-          <div className="space-y-2 !mt-0">
+        <VoucherSection
+          numberTitle="Voucher Number"
+          className="grid grid-cols-2 gap-4 items-start"
+        >
+          <div className="space-y-2 !-mt-1">
             <Label className="text-sm font-medium text-gray-700">Date</Label>
-            <div className="bg-white text-gray-900">
+            <div className="bg-white text-gray-900 mt-2">
               <DatePickerFormField name="details.invoiceDate" />
             </div>
           </div>

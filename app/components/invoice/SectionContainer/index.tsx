@@ -9,7 +9,7 @@ export const SectionContainer = ({
 }) => {
   return (
     <section className="space-y-4 border-0 ">
-      <h3 className="text-lg font-semibold tracking-tight text-gray-900">
+      <h3 className="text-base font-semibold tracking-tight text-gray-900">
         {title}
       </h3>
       <div className="flex flex-col space-y-4 border-l pl-4 border-neutral-400 border-solid">

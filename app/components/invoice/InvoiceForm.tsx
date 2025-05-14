@@ -296,10 +296,10 @@ const InvoiceForm = () => {
     <InvoiceContainer title="Invoice" invoiceLabel={invoiceLabel}>
       <div className="space-y-8">
         {/* Voucher Details */}
-        <VoucherSection>
+        <VoucherSection numberTitle="Invoice Number">
           <div className="grid grid-cols-2 gap-6">
             <div className="space-y-2">
-              <Label className="text-base font-medium text-neutral-700">
+              <Label className="text-sm font-medium text-neutral-700">
                 Date
               </Label>
               <div className="bg-white text-gray-900">
@@ -307,7 +307,7 @@ const InvoiceForm = () => {
               </div>
             </div>
             <div className="space-y-2">
-              <Label className="text-base font-medium text-neutral-700">
+              <Label className="text-sm font-medium text-neutral-700">
                 Due Date
               </Label>
               <div className="bg-white text-gray-900">

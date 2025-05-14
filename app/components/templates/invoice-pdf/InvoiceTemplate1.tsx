@@ -80,7 +80,7 @@ const InvoiceTemplate = (data: InvoiceType) => {
 
             {/* Item Rows */}
             <div className="grid grid-cols-1 sm:grid-cols-5 gap-y-1">
-              {details.items.map((item, index) => (
+              {details.items?.map((item, index) => (
                 <React.Fragment key={index}>
                   {/* No. */}
                   <div className="sm:col-span-1 border-b border-gray-300">

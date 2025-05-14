@@ -94,17 +94,9 @@ const Items = () => {
   return (
     <section className="flex flex-col gap-4 w-full">
       <div className="flex justify-between items-center">
-        <h3 className="text-lg font-semibold tracking-tight text-gray-900">
+        <h3 className="text-base font-semibold tracking-tight text-gray-900">
           Expense Item
         </h3>
-        <BaseButton
-          tooltipLabel="Add a new item to the list"
-          onClick={addNewField}
-          className="bg-white rounded-lg text-blue-500 hover:bg-blue-50 border border-solid border-blue-400 py-0 h-9"
-        >
-          <Plus />
-          {_t("form.steps.lineItems.addNewItem")}
-        </BaseButton>
       </div>
       <div className="flex flex-row items-center px-2 font-medium text-neutral-700 w-full gap-3 bg-neutral-100 py-3 rounded-t-lg border border-b-0 border-solid border-neutral-200 text-sm">
         <div className="w-10">No.</div>
@@ -112,7 +104,7 @@ const Items = () => {
         <div className="w-1/4">Unit Price</div>
         <div className="w-full max-w-[80px]">Quantity</div>
         <div className="w-1/4">Total</div>
-        <div className="max-w-[72px] w-full"></div>
+        <div className="max-w-[60px] w-full"></div>
       </div>
       <div className="border border-t-0 border-solid rounded-b-lg -mt-4 border-neutral-200 py-2">
         {fields?.length ? (
@@ -147,6 +139,14 @@ const Items = () => {
           <div className="text-neutral-500 text-center">No data</div>
         )}
       </div>
+      <BaseButton
+        tooltipLabel="Add a new item to the list"
+        onClick={addNewField}
+        className="bg-white rounded-lg text-blue-500 hover:bg-blue-50 border-0 py-0 h-8 w-fit ml-auto flex items-center gap-2 -mr-2"
+      >
+        <Plus />
+        {_t("form.steps.lineItems.addNewItem")}
+      </BaseButton>
     </section>
   );
 };

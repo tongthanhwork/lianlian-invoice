@@ -36,11 +36,12 @@ export default function FinalPdf() {
         <div className="flex items-center ">
           <BaseButton
             variant={"ghost"}
+            tooltipLabel="Back to preview"
             size="sm"
             onClick={removeFinalPdf}
-            className=" text-neutral-500 flex flex-row items-center gap-2"
+            className=" text-neutral-700 flex flex-row items-center gap-2"
           >
-            <MoveLeft className="w-5 h-5" /> Back
+            <MoveLeft className="w-5 h-5" />
           </BaseButton>
         </div>
         {/* Buttons */}
@@ -52,7 +53,6 @@ export default function FinalPdf() {
             variant={"outline"}
           >
             <Eye className="w-5 h-5" />
-            Preview
           </BaseButton>
           <BaseButton
             tooltipLabel="Download invoice PDF"
@@ -61,7 +61,6 @@ export default function FinalPdf() {
             variant={"outline"}
           >
             <DownloadCloudIcon className="w-5 h-5" />
-            Download
           </BaseButton>
 
           <BaseButton
@@ -71,7 +70,6 @@ export default function FinalPdf() {
             variant={"outline"}
           >
             <Printer className="w-5 h-5" />
-            Print
           </BaseButton>
 
           <BaseButton
@@ -81,13 +79,12 @@ export default function FinalPdf() {
             variant={"outline"}
           >
             <BookmarkIcon className="w-5 h-5" />
-            Save
           </BaseButton>
         </div>
       </div>
 
       <iframe
-        className=" w-full  h-[calc(100vh_-_262px)] overflow-y-scroll"
+        className=" w-full  h-[calc(100vh_-_308px)] overflow-y-scroll"
         src={`${pdfUrl}#toolbar=0`}
       />
     </>

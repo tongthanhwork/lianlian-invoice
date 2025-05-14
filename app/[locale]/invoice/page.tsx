@@ -28,7 +28,7 @@ export default function InvoicePage() {
   }
 
   return (
-    <main className="py-4 pr-4">
+    <main className="p-4">
       <InvoiceMain />
     </main>
   );

@@ -162,7 +162,7 @@ const SingleItem = ({
               variant="destructive"
               onClick={() => removeField(index)}
             >
-              <Trash2 />
+              <Trash2 className="w-5 h-5" />
             </BaseButton>
           )}
           <div
@@ -170,7 +170,7 @@ const SingleItem = ({
             ref={setNodeRef}
             {...listeners}
           >
-            <GripVertical className="hover:text-blue-600 !important" />
+            <GripVertical className=" hover:text-blue-600 text-neutral-700 w-4 h-4 cursor-pointer !important" />
           </div>
         </div>
       </div>

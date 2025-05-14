@@ -2,13 +2,13 @@
 
 import { useAuth } from "@/contexts/AuthContext";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 export default function Header() {
   const { user, loading, logout } = useAuth();
-  const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   const handleLogout = async () => {
     try {
@@ -18,6 +18,7 @@ export default function Header() {
       console.error("Logout failed:", error);
     }
   };
+  const hidden = pathname === "/login" || pathname === "/register";
 
   // Show loading state
   if (loading) {
@@ -40,7 +41,7 @@ export default function Header() {
   }
 
   return (
-    <header className="bg-red-50 shadow-sm">
+    <header className={`bg-red-50 shadow-sm ${hidden ? "hidden" : ""}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">

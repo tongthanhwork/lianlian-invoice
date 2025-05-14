@@ -8,18 +8,20 @@ import { cn } from "@/lib/utils";
 export const VoucherSection = ({
   children,
   className,
+  numberTitle,
 }: {
   children: ReactNode;
   className?: string;
+  numberTitle?: string;
 }) => {
   return (
-    <SectionContainer title="Invoice Information">
+    <SectionContainer title="Information">
       <div className={cn("flex flex-col space-y-4", className)}>
         <div className="space-y-2">
           <FormInput
             name="details.invoiceNumber"
             placeholder="Enter voucher number"
-            label="Voucher Number"
+            label={numberTitle}
           />
         </div>
         {children}
