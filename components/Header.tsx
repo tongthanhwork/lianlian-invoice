@@ -23,9 +23,7 @@ export default function Header() {
 
   return (
     <header
-      className={`bg-white sticky top-0 border-b border-neutral-200 z-10 ${
-        hidden ? "hidden" : ""
-      }`}
+      className={` border-b border-neutral-200 z-10 ${hidden ? "hidden" : ""}`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
         <div className="flex justify-between h-16">
@@ -85,7 +83,7 @@ export default function Header() {
                   <span className="text-gray-700">{user.name}</span>
                   <button
                     onClick={handleLogout}
-                    className="bg-red-50 text-red-600  px-4 py-2 rounded-md hover:bg-red-100 transition-colors flex items-center gap-2"
+                    className=" text-red-600  px-4 py-2 rounded-md hover:bg-red-50 transition-colors flex items-center gap-2"
                   >
                     <LogOut className="w-5 h-5" />
                   </button>
