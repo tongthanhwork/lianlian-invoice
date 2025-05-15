@@ -18,7 +18,7 @@ export async function generatePdfService(req: NextRequest) {
 		let puppeteer;
 		let launchOptions: any = {};
 
-		if (ENV === "production") {
+		if (true) {
 			console.log("Launching browser in production...");
 			puppeteer = await import("puppeteer-core");
 			console.log("puppeteer", puppeteer);
@@ -43,12 +43,12 @@ export async function generatePdfService(req: NextRequest) {
 				headless: chromium.headless,
 			}
 		} else {
-			console.log("Launching browser in development...");
-			puppeteer = await import("puppeteer");
-			launchOptions = {
-				args: ["--no-sandbox", "--disable-setuid-sandbox"],
-				headless: true,
-			};
+			// console.log("Launching browser in development...");
+			// puppeteer = await import("puppeteer");
+			// launchOptions = {
+			// 	args: ["--no-sandbox", "--disable-setuid-sandbox"],
+			// 	headless: true,
+			// };
 		}
 
 		browser = await puppeteer.launch(launchOptions);
