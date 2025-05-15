@@ -26,18 +26,13 @@ export async function generatePdfService(req: NextRequest) {
 			launchOptions = {
 				args: chromium.args,
 				defaultViewport: chromium.defaultViewport,
-				executablePath: await chromium.executablePath(),
+
 				headless: chromium.headless,
 			};
 
 
 
-			launchOptions = {
-				args: chromium.args,
-				defaultViewport: chromium.defaultViewport,
-				executablePath: await chromium.executablePath(), // Đừng gán gì thêm!
-				headless: chromium.headless,
-			}
+
 		} else {
 			// console.log("Launching browser in development...");
 			// puppeteer = await import("puppeteer");
