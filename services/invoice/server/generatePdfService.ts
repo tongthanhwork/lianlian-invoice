@@ -15,12 +15,12 @@ export async function generatePdfService(req: NextRequest) {
 		const InvoiceTemplate = await getInvoiceTemplate(templateId);
 		const htmlTemplate = ReactDOMServer.renderToStaticMarkup(InvoiceTemplate(body));
 
-		let puppeteer;
+
 		let launchOptions: any = {};
 
 		if (true) {
 			console.log("Launching browser in production...");
-			puppeteer = await import("puppeteer-core");
+
 
 
 			launchOptions = {
