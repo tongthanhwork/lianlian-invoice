@@ -30,7 +30,7 @@ export async function generatePdfService(req: NextRequest) {
 				headless: chromium.headless,
 			};
 
-			console.log("executablePath", executablePath);
+
 
 			launchOptions = {
 				args: chromium.args,
