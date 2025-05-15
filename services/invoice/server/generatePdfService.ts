@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import chromium from "@sparticuz/chromium";
 import { getInvoiceTemplate } from "@/lib/helpers";
 import { CHROMIUM_EXECUTABLE_PATH, ENV, TAILWIND_CDN } from "@/lib/variables";
 import { InvoiceType } from "@/types";
-
+import puppeteer from 'puppeteer-core';
+import chromium from '@sparticuz/chromium';
 export async function generatePdfService(req: NextRequest) {
 	const body: InvoiceType = await req.json();
 	let browser;
@@ -21,16 +21,12 @@ export async function generatePdfService(req: NextRequest) {
 		if (true) {
 			console.log("Launching browser in production...");
 			puppeteer = await import("puppeteer-core");
-			console.log("puppeteer", puppeteer);
-			let executablePath = await chromium.executablePath();
-			if (!executablePath || executablePath.includes(".next/server/bin")) {
-				executablePath = "/tmp/chromium";
-			}
+
 
 			launchOptions = {
 				args: chromium.args,
 				defaultViewport: chromium.defaultViewport,
-				executablePath,
+				executablePath: await chromium.executablePath(),
 				headless: chromium.headless,
 			};
 
