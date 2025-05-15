@@ -3,7 +3,7 @@ import { getInvoiceTemplate } from "@/lib/helpers";
 import { CHROMIUM_EXECUTABLE_PATH, ENV, TAILWIND_CDN } from "@/lib/variables";
 import { InvoiceType } from "@/types";
 import puppeteer from 'puppeteer-core';
-import chromium from '@sparticuz/chromium';
+import chromium from "@sparticuz/chromium-min";
 export const runtime = 'nodejs'; // Bắt buộc để Puppeteer chạy trên Vercel Serverless
 export async function generatePdfService(req: NextRequest) {
 	const body: InvoiceType = await req.json();
