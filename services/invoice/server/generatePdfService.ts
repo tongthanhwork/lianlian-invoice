@@ -26,7 +26,7 @@ export async function generatePdfService(req: NextRequest) {
 			launchOptions = {
 				args: chromium.args,
 				defaultViewport: chromium.defaultViewport,
-
+				executablePath: chromium.executablePath,
 				headless: chromium.headless,
 			};
 
