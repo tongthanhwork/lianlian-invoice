@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getInvoiceTemplate } from "@/lib/helpers";
-import { CHROMIUM_EXECUTABLE_PATH, ENV, TAILWIND_CDN } from "@/lib/variables";
+import { TAILWIND_CDN } from "@/lib/variables";
 import { InvoiceType } from "@/types";
 import puppeteer from 'puppeteer-core';
 import chromium from "@sparticuz/chromium";
-export const runtime = 'nodejs'; // Bắt buộc để Puppeteer chạy trên Vercel Serverless
+
+export const runtime = 'nodejs';
+
 export async function generatePdfService(req: NextRequest) {
 	const body: InvoiceType = await req.json();
 	let browser;
@@ -16,48 +18,40 @@ export async function generatePdfService(req: NextRequest) {
 		const InvoiceTemplate = await getInvoiceTemplate(templateId);
 		const htmlTemplate = ReactDOMServer.renderToStaticMarkup(InvoiceTemplate(body));
 
-
-		let launchOptions: any = {};
-
-		if (true) {
-			console.log("Launching browser in production...");
-
-
-
-			launchOptions = {
-				args: chromium.args,
-				defaultViewport: chromium.defaultViewport,
-				executablePath: await chromium.executablePath(),
-				headless: chromium.headless,
-			};
-
-
-
-
-		} else {
-			// console.log("Launching browser in development...");
-			// puppeteer = await import("puppeteer");
-			// launchOptions = {
-			// 	args: ["--no-sandbox", "--disable-setuid-sandbox"],
-			// 	headless: true,
-			// };
-		}
+		// Configure launch options for Vercel
+		const launchOptions = {
+			args: [...chromium.args, '--hide-scrollbars', '--disable-web-security'],
+			defaultViewport: chromium.defaultViewport,
+			executablePath: await chromium.executablePath(),
+			headless: true,
+			ignoreHTTPSErrors: true,
+		};
 
 		browser = await puppeteer.launch(launchOptions);
 		if (!browser) throw new Error("Browser launch failed");
 
 		page = await browser.newPage();
+
+		// Set content with increased timeout
 		await page.setContent(htmlTemplate, {
 			waitUntil: ["networkidle0", "load", "domcontentloaded"],
-			timeout: 30000,
+			timeout: 60000, // Increased timeout
 		});
 
+		// Add Tailwind CSS
 		await page.addStyleTag({ url: TAILWIND_CDN });
 
+		// Generate PDF with specific options
 		const pdfBuffer = await page.pdf({
 			format: "a4",
 			printBackground: true,
 			preferCSSPageSize: true,
+			margin: {
+				top: '20px',
+				right: '20px',
+				bottom: '20px',
+				left: '20px'
+			}
 		});
 
 		return new NextResponse(new Blob([pdfBuffer], { type: "application/pdf" }), {
