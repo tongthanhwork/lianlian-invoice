@@ -20,14 +20,14 @@ export async function generatePdfService(req: NextRequest) {
 
 		// Configure launch options for Vercel
 		const launchOptions = {
-			args: [...chromium.args, '--hide-scrollbars', '--disable-web-security'],
+			args: chromium.args,
 			defaultViewport: chromium.defaultViewport,
 			executablePath: await chromium.executablePath(),
 			headless: true,
 			ignoreHTTPSErrors: true,
 		};
 
-		browser = await puppeteer.launch({ ignoreDefaultArgs: ['--disable-extensions'] });
+		browser = await puppeteer.launch(launchOptions);
 		if (!browser) throw new Error("Browser launch failed");
 
 		page = await browser.newPage();
