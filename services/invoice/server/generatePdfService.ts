@@ -23,7 +23,7 @@ export async function generatePdfService(req: NextRequest) {
 			puppeteer = await import("puppeteer-core");
 
 			const executablePath = await chromium.executablePath();
-			console.log("Launching browser in production...");
+			console.log("executablePath", executablePath);
 
 			launchOptions = {
 				args: chromium.args,
