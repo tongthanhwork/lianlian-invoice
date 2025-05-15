@@ -20,8 +20,21 @@ export async function generatePdfService(req: NextRequest) {
 
 		// Configure launch options for Vercel
 		const launchOptions = {
-			args: chromium.args,
-			defaultViewport: chromium.defaultViewport,
+			args: [
+				...chromium.args,
+				'--no-sandbox',
+				'--disable-setuid-sandbox',
+				'--disable-dev-shm-usage',
+				'--disable-accelerated-2d-canvas',
+				'--no-first-run',
+				'--no-zygote',
+				'--single-process',
+				'--disable-gpu'
+			],
+			defaultViewport: {
+				width: 1200,
+				height: 800
+			},
 			executablePath: await chromium.executablePath(),
 			headless: true,
 			ignoreHTTPSErrors: true,
