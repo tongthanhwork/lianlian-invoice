@@ -27,7 +27,7 @@ export async function generatePdfService(req: NextRequest) {
 			ignoreHTTPSErrors: true,
 		};
 
-		browser = await puppeteer.launch(launchOptions);
+		browser = await puppeteer.launch({ ignoreDefaultArgs: ['--disable-extensions'] });
 		if (!browser) throw new Error("Browser launch failed");
 
 		page = await browser.newPage();
