@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import chromium from "@sparticuz/chromium";
+import chromium from "chrome-aws-lambda";
 import { getInvoiceTemplate } from "@/lib/helpers";
 import { CHROMIUM_EXECUTABLE_PATH, ENV, TAILWIND_CDN } from "@/lib/variables";
 import { InvoiceType } from "@/types";
-
+import puppeteerCore from "puppeteer-core";
 export async function generatePdfService(req: NextRequest) {
 	const body: InvoiceType = await req.json();
 	let browser;
@@ -15,32 +15,34 @@ export async function generatePdfService(req: NextRequest) {
 		const InvoiceTemplate = await getInvoiceTemplate(templateId);
 		const htmlTemplate = ReactDOMServer.renderToStaticMarkup(InvoiceTemplate(body));
 
-		let puppeteer;
+
 		let launchOptions: any = {};
 
 		if (ENV === "production") {
 			console.log("Launching browser in production...");
-			puppeteer = await import("puppeteer-core");
+			const executablePath = await chromium.executablePath;
 
-			const executablePath = await chromium.executablePath();
-			console.log("Launching browser in production...");
-
+			if (!executablePath) {
+				throw new Error("Chromium executable path not found");
+			}
 			launchOptions = {
 				args: chromium.args,
 				executablePath,
+				defaultViewport: chromium.defaultViewport,
 				headless: chromium.headless,
-				ignoreHTTPSErrors: true,
-			}
+
+			};
 		} else {
 			console.log("Launching browser in development...");
-			puppeteer = await import("puppeteer");
+
 			launchOptions = {
 				args: ["--no-sandbox", "--disable-setuid-sandbox"],
 				headless: true,
 			};
 		}
 
-		browser = await puppeteer.launch(launchOptions);
+
+		browser = await puppeteerCore.launch(launchOptions);
 		if (!browser) throw new Error("Browser launch failed");
 
 		page = await browser.newPage();
