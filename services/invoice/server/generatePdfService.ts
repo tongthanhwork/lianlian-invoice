@@ -21,27 +21,17 @@ export async function generatePdfService(req: NextRequest) {
 		if (ENV === "production") {
 			console.log("Launching browser in production...");
 			puppeteer = await import("puppeteer-core");
-			console.log("puppeteer", puppeteer);
-			let executablePath = await chromium.executablePath();
-			if (!executablePath || executablePath.includes(".next/server/bin")) {
-				executablePath = "/tmp/chromium";
-			}
+
+			// Configure Chromium for Vercel
+			await chromium.font('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 			launchOptions = {
 				args: chromium.args,
 				defaultViewport: chromium.defaultViewport,
-				executablePath,
-				headless: chromium.headless,
+				executablePath: await chromium.executablePath(),
+				headless: true,
+				ignoreHTTPSErrors: true,
 			};
-
-			console.log("executablePath", executablePath);
-
-			launchOptions = {
-				args: chromium.args,
-				defaultViewport: chromium.defaultViewport,
-				executablePath: await chromium.executablePath(), // Đừng gán gì thêm!
-				headless: chromium.headless,
-			}
 		} else {
 			console.log("Launching browser in development...");
 			puppeteer = await import("puppeteer");
