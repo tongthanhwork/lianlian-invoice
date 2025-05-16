@@ -10,8 +10,9 @@ import { CHROMIUM_EXECUTABLE_PATH, ENV, TAILWIND_CDN } from "@/lib/variables";
 // Types
 import { InvoiceType } from "@/types";
 
-import { chromium as playwright } from 'playwright-core';
-import chromium from '@sparticuz/chromium';
+import puppeteer, { type Browser } from 'puppeteer';
+import puppeteerCore, { type Browser as BrowserCore } from 'puppeteer-core';
+import chromium from '@sparticuz/chromium-min';
 
 /**
  * Generate a PDF document of an invoice based on the provided data.
@@ -23,20 +24,23 @@ import chromium from '@sparticuz/chromium';
  */
 export async function generatePdfService(req: NextRequest) {
 	const body: InvoiceType = await req.json();
-	let browser;
-	let page;
 
+	let browser: Browser | BrowserCore;
+	let page;
 	try {
 		const ReactDOMServer = (await import("react-dom/server")).default;
 		const templateId = body.details.pdfTemplate;
 		const InvoiceTemplate = await getInvoiceTemplate(templateId);
 		const htmlTemplate = ReactDOMServer.renderToStaticMarkup(InvoiceTemplate(body));
-
+		const executablePath = await chromium.executablePath('https://github.com/Sparticuz/chromium/releases/download/v131.0.1/chromium-v131.0.1-pack.tar')
+		browser = await puppeteerCore.launch({
+			executablePath,
+			args: chromium.args,
+			headless: chromium.headless,
+			defaultViewport: chromium.defaultViewport
+		});
 		if (ENV === "production") {
-			browser = await playwright.launch({
-				args: chromium.args,
-				executablePath: await chromium.executablePath(),
-			});
+
 		} else {
 			// const puppeteer = await import("puppeteer");
 			// browser = await puppeteer.launch({
@@ -45,9 +49,7 @@ export async function generatePdfService(req: NextRequest) {
 			// });
 		}
 
-		if (!browser) {
-			throw new Error("Failed to launch browser");
-		}
+
 
 		page = await browser.newPage();
 		await page.setContent(await htmlTemplate, {
@@ -90,14 +92,14 @@ export async function generatePdfService(req: NextRequest) {
 				console.error("Error closing page:", e);
 			}
 		}
-		if (browser) {
-			try {
-				const pages = await browser.pages();
-				await Promise.all(pages.map((p) => p.close()));
-				await browser.close();
-			} catch (e) {
-				console.error("Error closing browser:", e);
-			}
-		}
+		// if (browser) {
+		// 	try {
+		// 		const pages = await browser.pages();
+		// 		await Promise.all(pages.map((p) => p.close()));
+		// 		await browser.close();
+		// 	} catch (e) {
+		// 		console.error("Error closing browser:", e);
+		// 	}
+		// }
 	}
 }
