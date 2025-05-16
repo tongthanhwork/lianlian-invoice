@@ -1,8 +1,0 @@
-{
-    "functions": {
-        "api/invoice/generate/route.ts": {
-            "memory": 512,
-            "maxDuration": 30
-        }
-    }
-}
