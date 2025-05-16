@@ -32,20 +32,27 @@ export async function generatePdfService(req: NextRequest) {
 		const htmlTemplate = ReactDOMServer.renderToStaticMarkup(InvoiceTemplate(body));
 
 		if (ENV === "production") {
+			chromium.setGraphicsMode = false;
+
+			// Optional: Load any fonts you need. Open Sans is included by default in AWS Lambda instances
+			await chromium.font(
+				"https://raw.githack.com/googlei18n/noto-emoji/master/fonts/NotoColorEmoji.ttf"
+			);
+			console.log("Generating PDF in production...");
 			const puppeteer = await import("puppeteer-core");
 			browser = await puppeteer.launch({
 				args: [...chromium.args, "--disable-dev-shm-usage"],
 				defaultViewport: chromium.defaultViewport,
-				executablePath: await chromium.executablePath(CHROMIUM_EXECUTABLE_PATH),
+				executablePath: await chromium.executablePath(),
 				headless: true,
 				ignoreDefaultArgs: ['--disable-extensions'],
 			});
 		} else {
-			const puppeteer = await import("puppeteer");
-			browser = await puppeteer.launch({
-				args: ["--no-sandbox", "--disable-setuid-sandbox"],
-				headless: true,
-			});
+			// const puppeteer = await import("puppeteer");
+			// browser = await puppeteer.launch({
+			// 	args: ["--no-sandbox", "--disable-setuid-sandbox"],
+			// 	headless: true,
+			// });
 		}
 
 		if (!browser) {
