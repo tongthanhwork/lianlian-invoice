@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// Chromium
-import chromium from 'chrome-aws-lambda';
 
 // Helpers
 import { getInvoiceTemplate } from "@/lib/helpers";
@@ -11,6 +9,9 @@ import { CHROMIUM_EXECUTABLE_PATH, ENV, TAILWIND_CDN } from "@/lib/variables";
 
 // Types
 import { InvoiceType } from "@/types";
+
+import { chromium as playwright } from 'playwright-core';
+import chromium from '@sparticuz/chromium';
 
 /**
  * Generate a PDF document of an invoice based on the provided data.
@@ -32,15 +33,9 @@ export async function generatePdfService(req: NextRequest) {
 		const htmlTemplate = ReactDOMServer.renderToStaticMarkup(InvoiceTemplate(body));
 
 		if (ENV === "production") {
-
-			console.log("Generating PDF in production...");
-			const puppeteer = await import("puppeteer-core");
-			browser = await chromium.puppeteer.launch({
-				args: [...chromium.args, "--disable-dev-shm-usage"],
-				defaultViewport: chromium.defaultViewport,
-				executablePath: await chromium.executablePath,
-				headless: true,
-				ignoreDefaultArgs: ['--disable-extensions'],
+			browser = await playwright.launch({
+				args: chromium.args,
+				executablePath: await chromium.executablePath(),
 			});
 		} else {
 			// const puppeteer = await import("puppeteer");
