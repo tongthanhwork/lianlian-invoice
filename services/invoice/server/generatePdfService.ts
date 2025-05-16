@@ -1,11 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getInvoiceTemplate } from "@/lib/helpers";
-import { TAILWIND_CDN } from "@/lib/variables";
-import { InvoiceType } from "@/types";
-import puppeteer from 'puppeteer-core';
 import chromium from "@sparticuz/chromium";
-
-export const runtime = 'nodejs';
+import { getInvoiceTemplate } from "@/lib/helpers";
+import { CHROMIUM_EXECUTABLE_PATH, ENV, TAILWIND_CDN } from "@/lib/variables";
+import { InvoiceType } from "@/types";
 
 export async function generatePdfService(req: NextRequest) {
 	const body: InvoiceType = await req.json();
@@ -18,48 +15,57 @@ export async function generatePdfService(req: NextRequest) {
 		const InvoiceTemplate = await getInvoiceTemplate(templateId);
 		const htmlTemplate = ReactDOMServer.renderToStaticMarkup(InvoiceTemplate(body));
 
-		// Configure launch options for Vercel
-		const launchOptions = {
-			args: [
-				'--no-sandbox',
-				'--disable-setuid-sandbox',
-				'--disable-dev-shm-usage',
-				'--disable-gpu',
-				'--no-first-run',
-				'--no-zygote',
-				'--single-process',
-				'--disable-extensions'
-			],
-			executablePath: await chromium.executablePath(),
-			headless: true,
-			ignoreHTTPSErrors: true,
-		};
+		let puppeteer;
+		let launchOptions: any = {};
+
+		if (ENV === "production") {
+			console.log("Launching browser in production...");
+			puppeteer = await import("puppeteer-core");
+			console.log("puppeteer", puppeteer);
+			let executablePath = await chromium.executablePath();
+			if (!executablePath || executablePath.includes(".next/server/bin")) {
+				executablePath = "/tmp/chromium";
+			}
+
+			launchOptions = {
+				args: chromium.args,
+				defaultViewport: chromium.defaultViewport,
+				executablePath,
+				headless: chromium.headless,
+			};
+
+			console.log("executablePath", executablePath);
+
+			launchOptions = {
+				args: chromium.args,
+				defaultViewport: chromium.defaultViewport,
+				executablePath: await chromium.executablePath(), // Đừng gán gì thêm!
+				headless: chromium.headless,
+			}
+		} else {
+			console.log("Launching browser in development...");
+			puppeteer = await import("puppeteer");
+			launchOptions = {
+				args: ["--no-sandbox", "--disable-setuid-sandbox"],
+				headless: true,
+			};
+		}
 
 		browser = await puppeteer.launch(launchOptions);
 		if (!browser) throw new Error("Browser launch failed");
 
 		page = await browser.newPage();
-
-		// Set content with increased timeout
 		await page.setContent(htmlTemplate, {
 			waitUntil: ["networkidle0", "load", "domcontentloaded"],
-			timeout: 60000, // Increased timeout
+			timeout: 30000,
 		});
 
-		// Add Tailwind CSS
 		await page.addStyleTag({ url: TAILWIND_CDN });
 
-		// Generate PDF with specific options
 		const pdfBuffer = await page.pdf({
 			format: "a4",
 			printBackground: true,
 			preferCSSPageSize: true,
-			margin: {
-				top: '20px',
-				right: '20px',
-				bottom: '20px',
-				left: '20px'
-			}
 		});
 
 		return new NextResponse(new Blob([pdfBuffer], { type: "application/pdf" }), {
