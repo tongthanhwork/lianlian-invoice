@@ -10,10 +10,10 @@ import { CHROMIUM_EXECUTABLE_PATH, ENV, TAILWIND_CDN } from "@/lib/variables";
 // Types
 import { InvoiceType } from "@/types";
 
-import puppeteer, { type Browser } from 'puppeteer';
-import puppeteerCore, { type Browser as BrowserCore } from 'puppeteer-core';
-import chromium from '@sparticuz/chromium-min';
 
+
+import puppeteer from 'puppeteer-core';
+import chromium from '@sparticuz/chromium';
 /**
  * Generate a PDF document of an invoice based on the provided data.
  *
@@ -25,18 +25,17 @@ import chromium from '@sparticuz/chromium-min';
 export async function generatePdfService(req: NextRequest) {
 	const body: InvoiceType = await req.json();
 
-	let browser: Browser | BrowserCore;
+	let browser;
 	let page;
 	try {
 		const ReactDOMServer = (await import("react-dom/server")).default;
 		const templateId = body.details.pdfTemplate;
 		const InvoiceTemplate = await getInvoiceTemplate(templateId);
 		const htmlTemplate = ReactDOMServer.renderToStaticMarkup(InvoiceTemplate(body));
-		const executablePath = await chromium.executablePath('https://github.com/Sparticuz/chromium/releases/download/v131.0.1/chromium-v131.0.1-pack.tar')
-		browser = await puppeteerCore.launch({
-			executablePath,
+		browser = await puppeteer.launch({
+			executablePath: await chromium.executablePath(),
 			args: chromium.args,
-			headless: chromium.headless,
+			headless: true,
 			defaultViewport: chromium.defaultViewport
 		});
 		if (ENV === "production") {
