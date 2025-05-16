@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 // Chromium
-import chromium from "@sparticuz/chromium";
+import chromium from 'chrome-aws-lambda';
 
 // Helpers
 import { getInvoiceTemplate } from "@/lib/helpers";
@@ -32,18 +32,13 @@ export async function generatePdfService(req: NextRequest) {
 		const htmlTemplate = ReactDOMServer.renderToStaticMarkup(InvoiceTemplate(body));
 
 		if (ENV === "production") {
-			chromium.setGraphicsMode = false;
 
-			// Optional: Load any fonts you need. Open Sans is included by default in AWS Lambda instances
-			await chromium.font(
-				"https://raw.githack.com/googlei18n/noto-emoji/master/fonts/NotoColorEmoji.ttf"
-			);
 			console.log("Generating PDF in production...");
 			const puppeteer = await import("puppeteer-core");
-			browser = await puppeteer.launch({
+			browser = await chromium.puppeteer.launch({
 				args: [...chromium.args, "--disable-dev-shm-usage"],
 				defaultViewport: chromium.defaultViewport,
-				executablePath: await chromium.executablePath(),
+				executablePath: await chromium.executablePath,
 				headless: true,
 				ignoreDefaultArgs: ['--disable-extensions'],
 			});
